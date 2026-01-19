@@ -2,7 +2,7 @@
 
 :root {
   --bg-color: #1a1a1a;
-  --text-color: #ffffff;
+  --primary-color: #ffffff;
 }
 
 html {
@@ -12,13 +12,29 @@ html {
 body {
   font-size: 1.6rem;
   background-color: var(--bg-color);
-  color: var(--text-color);
+  color: var(--primary-color);
 }
 
 #root {
   overflow: hidden;
   min-height: 100%;
   display: flex;
+
+  // flex-direction: column;
+}
+
+.sidebar {
+  width: 88px;
+
+  &--open {
+    width: 288px;
+  }
+}
+
+.app {
+  flex: 1 0 auto;
+  display: flex;
+  min-height: 100%;
   flex-direction: column;
 }
 
@@ -44,9 +60,4 @@ body {
   clip-path: inset(50%);
   border: 0;
   white-space: nowrap;
-}
-
-.button {
-  padding: 1rem;
-  border: 1px solid white;
 }
