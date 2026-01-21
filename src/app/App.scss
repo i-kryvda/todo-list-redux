@@ -1,8 +1,31 @@
 @use "../shared/assets/styles/null-style.scss";
+// @use "../shared/assets/styles/nullstyle";
+
+// --accent-main
+// --accent-secondary
 
 :root {
-  --bg-color: #1a1a1a;
-  --primary-color: #ffffff;
+  --bg-main: #1f1f1f;
+  --text-primary: #fff;
+  --text-secondory: #808080;
+  --border-color: #3a3a3a;
+  --color-white: #fff;
+  --sidebar-color: #262626;
+  --primary-color: #e26a60;
+  --secondary-color: #424242;
+  --hover-color: #2a2a2a;
+}
+
+:root {
+  --toggle-circle-x: 0px;
+}
+
+html[data-theme="light"] {
+  --bg-main: #f9fafb;
+  --text-primary: #111;
+  --sidebar-color: #d7d7d7;
+  --hover-color: #e26a60;
+  --toggle-circle-x: 19px;
 }
 
 html {
@@ -11,46 +34,49 @@ html {
 
 body {
   font-size: 1.6rem;
-  background-color: var(--bg-color);
-  color: var(--primary-color);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
 }
 
 #root {
-  overflow: hidden;
   min-height: 100%;
   display: flex;
-
-  // flex-direction: column;
+  overflow-x: hidden;
 }
 
-.sidebar {
-  width: 88px;
-
-  &--open {
-    width: 288px;
-  }
+[class*="__container"] {
+  max-width: 113rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .app {
   flex: 1 0 auto;
   display: flex;
-  min-height: 100%;
   flex-direction: column;
 }
 
-[class*="__container"] {
-  max-width: 123rem;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+.main {
+  flex: 1 0 auto;
 }
 
-.main {
-  border: 1px solid #424242;
-  flex: 1 0 auto;
+.main__container {
+  height: 100%;
+}
+
+.header,
+.footer {
+  padding: 25px 0px;
+}
+
+.header__container,
+.footer__container {
+  max-width: 183rem;
 }
 
 .visually-hidden {
   position: absolute;
+  opacity: 0;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -60,4 +86,31 @@ body {
   clip-path: inset(50%);
   border: 0;
   white-space: nowrap;
+}
+
+//----------------------------------------------------------
+
+.todo-entry {
+  // border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+
+  &__body {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: column;
+  }
+
+  &__button {
+    font-size: inherit;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--primary-color);
+  }
 }

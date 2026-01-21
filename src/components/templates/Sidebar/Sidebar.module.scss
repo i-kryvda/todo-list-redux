@@ -1,0 +1,117 @@
+:root {
+  --sidebar-collapsed: 90px;
+  --sidebar-expanded: 260px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: var(--sidebar-expanded);
+  min-height: 100%;
+  background-color: var(--sidebar-color);
+  padding: 2rem;
+  border-right: 1px solid var(--border-color);
+  transition: width 0.3s ease;
+
+  &Collapsed {
+    width: var(--sidebar-collapsed);
+  }
+
+  &Collapsed &ToggleText,
+  &Collapsed &Text {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  &Collapsed &Toggle svg {
+    width: 100%;
+  }
+
+  &Toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    padding: 1rem;
+    transition: background-color 0.2s ease;
+  }
+
+  &ToggleText,
+  &Text {
+    white-space: nowrap;
+    width: auto;
+    opacity: 1;
+    transition:
+      width 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  &Nav {
+    flex: 1 0 auto;
+  }
+
+  &List {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &Item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 1.6rem;
+    border-radius: 1rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--hover-color);
+    }
+  }
+
+  &Icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  &Switch {
+    cursor: pointer;
+    position: relative;
+    width: 50px;
+    height: 28px;
+    border-radius: 20px;
+    border: 1px solid var(--primary-color);
+    transition: background 0.3s ease;
+
+    &:hover .themeCircle {
+      transform: translateX(var(--toggle-circle-x)) scale(0.8);
+    }
+  }
+  &Circle {
+    position: absolute;
+    top: 2.5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    transform: translateX(var(--toggle-circle-x)) scale(1);
+    // transform: translateX(20px);
+    transition: transform 0.3s ease;
+  }
+}
