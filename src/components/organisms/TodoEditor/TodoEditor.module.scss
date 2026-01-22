@@ -49,15 +49,31 @@
     padding: 0.5rem 1rem;
     border-radius: 8px;
     border: none;
+    transition: background-color 0.11s ease;
 
     &Secondary {
       background-color: var(--secondary-color);
       color: var(--color-white);
+
+      &:hover:not(:disabled) {
+        background-color: var(--secondary-color-hover);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
     }
 
     &Primary {
       background-color: var(--primary-color);
       color: var(--color-white);
+
+      &:hover:not(:disabled) {
+        background-color: var(--primary-color-hover);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
     }
   }
 }

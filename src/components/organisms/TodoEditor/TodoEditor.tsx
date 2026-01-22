@@ -1,8 +1,32 @@
+import { createTodo } from "@app/store/todos/todos-slice";
+import { useAppDispatch } from "@app/store/store";
+import { useInput } from "@shared/hooks/useInput/useInput";
+// --- STYLES ---
 import s from "./TodoEditor.module.scss";
 
 export function TodoEditor({ onClose }: { onClose: () => void }) {
+  const dispatch = useAppDispatch();
+
+  const {
+    value: text,
+    onChange: onChangeText,
+    onReset: onResetText,
+  } = useInput("");
+  const {
+    value: description,
+    onChange: onChangeDescription,
+    onReset: onResetDescription,
+  } = useInput("");
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(createTodo(text, description));
+    onResetText();
+    onResetDescription();
+  };
+
   return (
-    <form className={s.editor}>
+    <form className={s.editor} onSubmit={onSubmit}>
       <div className={s.editorBody}>
         <label
           htmlFor="todo-title"
@@ -12,10 +36,13 @@ export function TodoEditor({ onClose }: { onClose: () => void }) {
         </label>
 
         <input
+          required
           type="text"
           id="todo-title"
           className={`${s.editorField} ${s.editorFieldTitle}`}
           placeholder="Create title..."
+          value={text}
+          onChange={onChangeText}
         />
 
         <label
@@ -30,6 +57,8 @@ export function TodoEditor({ onClose }: { onClose: () => void }) {
           id="todo-description"
           className={`${s.editorField} ${s.editorFieldDescription}`}
           placeholder="Optional description..."
+          value={description}
+          onChange={onChangeDescription}
         />
       </div>
 
@@ -45,6 +74,7 @@ export function TodoEditor({ onClose }: { onClose: () => void }) {
         <button
           type="submit"
           className={`${s.editorBtn} ${s.editorBtnPrimary}`}
+          disabled={!text.trim()}
         >
           Add task
         </button>

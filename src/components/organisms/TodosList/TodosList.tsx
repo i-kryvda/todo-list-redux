@@ -1,44 +1,39 @@
-import type {ChangeEvent} from "react";
-import {useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "@app/store/store.tsx";
-import {todosThunks} from "@app/store/todos/todos-thunks.tsx";
-import {filterTodos} from "@app/store/todos/todos-slice.tsx";
-import s from './TodosList.module.scss';
+import { useAppDispatch, useAppSelector } from "@app/store/store";
+import { deleteTodo } from "@app/store/todos/todos-slice";
+import { TodoEditor } from "../TodoEditor/TodoEditor";
 
+export function TodoList() {
+  const todos = useAppSelector((state) => state.todos.todos);
+  const dispatch = useAppDispatch();
 
-export function TodosList() {
-    const {filteredTodos, loading, error} = useAppSelector(state => state.todos)
-    const dispatch = useAppDispatch();
-    const [search, setSearch] = useState("");
+  return (
+    <ul className="todo-list">
+      <li style={{ marginBottom: "5rem" }}>
+        <TodoEditor></TodoEditor>
+      </li>
+      {todos.map((todo) => {
+        const description = todo.description?.trim()
+          ? todo.description
+          : "empty description";
 
-    const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value);
-        dispatch(filterTodos({search: event.target.value}));
-    }
-
-    useEffect(() => {
-        dispatch(todosThunks())
-    }, [dispatch])
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
-
-    return (
-        <div>
-            <input
-                className={s.input}
-                type="text"
-                placeholder="Search todos"
-                value={search}
-                onChange={handleSearch}
-            />
-            <ul>
-                {filteredTodos.map(todo => (
-                    <li key={todo.id}>
-                        {todo.title} {todo.completed ? "(done)" : ""}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
+        return (
+          <li className="todo-list__item">
+            <div className="todo-list__body">
+              <p className="todo-list__title">{todo.title}</p>
+              <p className="todo-list__description">{description}</p>
+            </div>
+            <div className="todo-list__actions">
+              <button
+                type="button"
+                className="todo-list__button"
+                onClick={() => dispatch(deleteTodo({ id: todo.id }))}
+              >
+                delete
+              </button>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
 }

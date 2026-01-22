@@ -12,7 +12,9 @@
   --color-white: #fff;
   --sidebar-color: #262626;
   --primary-color: #e26a60;
+  --primary-color-hover: #d38080;
   --secondary-color: #424242;
+  --secondary-color-hover: #323232;
   --hover-color: #2a2a2a;
 }
 
@@ -112,5 +114,61 @@ body {
     padding: 1rem;
     border-radius: 1rem;
     background-color: var(--primary-color);
+  }
+}
+
+//-------------------------------------------------------
+
+.todo-editor-section:not(:last-child) {
+  margin-bottom: 5rem;
+}
+
+// -------------------------------------------------------
+
+.todo-section {
+  // .todo-section__title
+
+  &__body {
+  }
+}
+.todo-list {
+  &__body {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &__title {
+    padding: 1rem 0rem;
+    font-size: 2rem;
+    // border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+  }
+
+  &__description {
+    padding: 1rem 0rem;
+    color: var(--text-secondory);
+  }
+
+  &__item {
+    border: 1px solid var(--border-color);
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+
+  &__button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--color-white);
   }
 }

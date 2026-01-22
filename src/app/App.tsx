@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TodoEditor } from "@components/organisms/TodoEditor/TodoEditor";
 import { FaArrowDown } from "react-icons/fa6";
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
+import { TodoList } from "@components/organisms/TodosList/TodosList";
 
 import "./App.scss";
 
@@ -49,6 +50,16 @@ export default function App() {
                 <TodoEditor onClose={() => setIsOpen(false)}></TodoEditor>
               </section>
             )}
+
+            <section className="todo-section">
+              <h2 className="todo-section__title visually-hidden">
+                Your Todos
+              </h2>
+
+              <div className="todo-section__body">
+                <TodoList></TodoList>
+              </div>
+            </section>
           </div>
         </main>
         <footer className="footer">
