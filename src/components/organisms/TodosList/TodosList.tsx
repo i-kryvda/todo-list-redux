@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { deleteTodo } from "@app/store/todos/todos-slice";
-import { TodoEditor } from "../TodoEditor/TodoEditor";
 
 export function TodoList() {
   const todos = useAppSelector((state) => state.todos.todos);
@@ -8,9 +7,6 @@ export function TodoList() {
 
   return (
     <ul className="todo-list">
-      <li style={{ marginBottom: "5rem" }}>
-        <TodoEditor></TodoEditor>
-      </li>
       {todos.map((todo) => {
         const description = todo.description?.trim()
           ? todo.description

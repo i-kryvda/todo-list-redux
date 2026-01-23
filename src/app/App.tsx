@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { TodoEditor } from "@components/organisms/TodoEditor/TodoEditor";
-import { FaArrowDown } from "react-icons/fa6";
+import { FiPlus } from "react-icons/fi";
+
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
 import { TodoList } from "@components/organisms/TodosList/TodosList";
 
 import "./App.scss";
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>
@@ -18,38 +19,27 @@ export default function App() {
         </header>
         <main className="main">
           <div className="main__container">
-            {!isOpen && (
-              <section
-                className="todo-entry"
-                aria-labelledby="todo-entry-title"
-              >
-                <h1 id="todo-entry-title" className="visually-hidden">
-                  Create your first todo
-                </h1>
-                <div className="todo-entry__body">
-                  <FaArrowDown className="todo-entry__icon" />
-                  <button
-                    type="button"
-                    className="todo-entry__button"
-                    onClick={() => setIsOpen(true)}
-                  >
-                    Create a task
-                  </button>
-                </div>
-              </section>
-            )}
+            <section
+              className="todo-editor-section"
+              aria-labelledby="todo-editor-title"
+            >
+              <h2 id="todo-editor-title" className="visually-hidden">
+                Todo Editor
+              </h2>
 
-            {isOpen && (
-              <section
-                className="todo-editor-section"
-                aria-labelledby="todo-editor-title"
-              >
-                <h2 id="todo-editor-title" className="visually-hidden">
-                  Todo Editor
-                </h2>
-                <TodoEditor onClose={() => setIsOpen(false)}></TodoEditor>
-              </section>
-            )}
+              {isOpen ? (
+                <button
+                  className="todo-editor-section__open-btn"
+                  onClick={() => setIsOpen(false)}
+                  type="button"
+                >
+                  <FiPlus className="icon" />
+                  <span>start</span>
+                </button>
+              ) : (
+                <TodoEditor onClose={() => setIsOpen(true)}></TodoEditor>
+              )}
+            </section>
 
             <section className="todo-section">
               <h2 className="todo-section__title visually-hidden">
