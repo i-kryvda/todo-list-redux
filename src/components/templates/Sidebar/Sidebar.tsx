@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { BsLayoutSidebar } from "react-icons/bs";
-import { TfiPencilAlt } from "react-icons/tfi";
+
+import { FaRegPlusSquare } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineEventNote } from "react-icons/md";
-import { AiOutlineFileDone } from "react-icons/ai";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 import s from "./Sidebar.module.scss";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
@@ -33,23 +34,23 @@ export function Sidebar() {
       <nav className={s.sidebarNav}>
         <ul className={s.sidebarList}>
           <li className={s.sidebarItem}>
-            <TfiPencilAlt className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Create task</span>
-          </li>
-
-          <li className={s.sidebarItem}>
             <IoSearch className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Search task</span>
+            <span className={s.sidebarText}>Search </span>
           </li>
 
           <li className={s.sidebarItem}>
             <MdOutlineEventNote className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Active task</span>
+            <span className={s.sidebarText}>Activity</span>
           </li>
 
           <li className={s.sidebarItem}>
-            <AiOutlineFileDone className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Complete task</span>
+            <FaRegTrashAlt className={s.sidebarIcon} />
+            <span className={s.sidebarText}>Trash</span>
+          </li>
+
+          <li className={s.sidebarItem}>
+            <FaRegPlusSquare className={s.sidebarIcon} />
+            <span className={s.sidebarText}> Create</span>
           </li>
         </ul>
       </nav>
