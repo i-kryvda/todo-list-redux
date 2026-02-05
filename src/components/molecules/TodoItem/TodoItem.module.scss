@@ -1,0 +1,46 @@
+.item {
+  border: 1px solid var(--border-color);
+
+  &Body {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  &Title {
+    padding: 1rem 0rem;
+    font-size: 2rem;
+    // border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+  }
+
+  &Description {
+    padding: 1rem 0rem;
+    color: var(--text-secondory);
+  }
+
+  &Actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  &Button {
+    cursor: pointer;
+    font-size: 0;
+    width: 15px;
+    height: 15px;
+
+    &Complete {
+      background-color: var(--color-green);
+    }
+    &Edit {
+      background-color: var(--color-yellow);
+    }
+
+    &Delete {
+      background-color: var(--color-red);
+    }
+  }
+}
