@@ -6,7 +6,6 @@ import type { TodosState, TodoType } from "@app/store/todos/todos-types.tsx";
 
 const initialState: TodosState = {
   todos: [],
-
   loading: false,
   error: "",
   filteredTodos: [],
@@ -27,6 +26,7 @@ const TodosSlice = createSlice({
             id: Date.now(),
             title,
             description,
+            isEditing: false,
           },
         };
       },

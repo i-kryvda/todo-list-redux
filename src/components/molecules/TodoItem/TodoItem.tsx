@@ -1,6 +1,9 @@
 import { useAppDispatch } from "@app/store/store";
 import { deleteTodo } from "@app/store/todos/todos-slice";
 import type { TodoType } from "@app/store/todos/todos-types";
+
+import { GoStar, GoStarFill } from "react-icons/go";
+
 import s from "./TodoItem.module.scss";
 
 export function TodoItem({ todo }: { todo: TodoType }) {
@@ -11,35 +14,34 @@ export function TodoItem({ todo }: { todo: TodoType }) {
     : "description is empty";
 
   return (
-    <li className={s.item} key={todo.id}>
+    <div className={s.item} key={todo.id}>
       <div className={s.itemActions}>
-        <button
-          type="button"
-          className={s.itemButton + " " + s.itemButtonComplete}
-          onClick={() => dispatch(deleteTodo({ id: todo.id }))}
-        >
-          complete
-        </button>
+        <div className={s.starWrap}>
+          <GoStar className={s.starOutline} size={18} />
+          <GoStarFill className={s.starFill} size={18} />
+        </div>
 
-        <button
-          type="button"
-          className={s.itemButton + " " + s.itemButtonEdit}
-          onClick={() => dispatch(deleteTodo({ id: todo.id }))}
-        >
-          edit
-        </button>
-        <button
-          type="button"
-          className={s.itemButton + " " + s.itemButtonDelete}
-          onClick={() => dispatch(deleteTodo({ id: todo.id }))}
-        >
-          delete
-        </button>
+        <div>
+          <button
+            type="button"
+            className={s.itemButton + " " + s.itemButtonEdit}
+            onClick={() => dispatch(deleteTodo({ id: todo.id }))}
+          >
+            edit
+          </button>
+          <button
+            type="button"
+            className={s.itemButton + " " + s.itemButtonDelete}
+            onClick={() => dispatch(deleteTodo({ id: todo.id }))}
+          >
+            delete
+          </button>
+        </div>
       </div>
       <div className={s.itemBody}>
         <p className={s.itemTitle}>{todo.title}</p>
         <p className={s.itemDescription}>{description}</p>
       </div>
-    </li>
+    </div>
   );
 }

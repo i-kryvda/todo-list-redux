@@ -21,7 +21,7 @@
   &Actions {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 1rem;
     gap: 1rem;
   }
@@ -31,10 +31,12 @@
     font-size: 0;
     width: 15px;
     height: 15px;
+    border-radius: 50%;
 
     &Complete {
       background-color: var(--color-green);
     }
+
     &Edit {
       background-color: var(--color-yellow);
     }
@@ -43,4 +45,32 @@
       background-color: var(--color-red);
     }
   }
+}
+.starWrap {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.starOutline,
+.starFill {
+  position: absolute;
+  fill: var(--color-yellow);
+  inset: 0;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.starFill {
+  opacity: 0;
+}
+
+.starWrap:hover .starFill {
+  opacity: 1;
+}
+
+.starWrap:hover .starOutline {
+  opacity: 0;
 }

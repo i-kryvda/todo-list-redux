@@ -12,9 +12,13 @@ interface TodoListViewProps {
 export function TodoListView({ todos }: TodoListViewProps) {
   return (
     <ul className={s.list}>
-      {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+      {todos.map((item) => (
+        <li key={item.id} className={s.listItem}>
+          {item.isEditing ? <p>Editing...</p> : <TodoItem todo={item} />}
+        </li>
       ))}
     </ul>
   );
 }
+
+// <TodoEdit {...item} />
