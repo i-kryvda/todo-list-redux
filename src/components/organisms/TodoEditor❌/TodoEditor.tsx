@@ -4,7 +4,11 @@ import { useInput } from "@shared/hooks/useInput/useInput";
 // --- STYLES ---
 import s from "./TodoEditor.module.scss";
 
-export function TodoEditor({ onClose }: { onClose: () => void }) {
+type TodoEditorProps = {
+  onClose?: () => void;
+};
+
+export function TodoEditor({ onClose }: TodoEditorProps) {
   const dispatch = useAppDispatch();
 
   const {

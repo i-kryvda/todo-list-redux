@@ -16,16 +16,15 @@ export function TodoItem({ todo }: { todo: TodoType }) {
   return (
     <div className={s.item} key={todo.id}>
       <div className={s.itemActions}>
-        <div className={s.starWrap}>
-          <GoStar className={s.starOutline} size={18} />
-          <GoStarFill className={s.starFill} size={18} />
-        </div>
+        <button type="button" className={s.itemStarWrap}>
+          <GoStar className={s.itemStarOutline} size={18} />
+          <GoStarFill className={s.itemStarFill} size={18} />
+        </button>
 
-        <div>
+        <div className={s.itemButtonsWrap}>
           <button
             type="button"
             className={s.itemButton + " " + s.itemButtonEdit}
-            onClick={() => dispatch(deleteTodo({ id: todo.id }))}
           >
             edit
           </button>

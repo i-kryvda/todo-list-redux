@@ -25,13 +25,51 @@
     padding: 1rem;
     gap: 1rem;
   }
+  // --------------
+
+  &StarWrap {
+    cursor: pointer;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+
+  &StarOutline,
+  &StarFill {
+    position: absolute;
+    fill: var(--color-yellow);
+    inset: 0;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  &StarFill {
+    opacity: 0;
+  }
+
+  &StarWrap:hover .itemStarFill {
+    opacity: 1;
+  }
+
+  &StarWrap:hover .itemStarOutline {
+    opacity: 0;
+  }
+
+  // ------------
+
+  &ButtonsWrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
   &Button {
     cursor: pointer;
     font-size: 0;
     width: 15px;
     height: 15px;
-    border-radius: 50%;
+    // border-radius: 50%;
 
     &Complete {
       background-color: var(--color-green);
@@ -45,32 +83,4 @@
       background-color: var(--color-red);
     }
   }
-}
-.starWrap {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.starOutline,
-.starFill {
-  position: absolute;
-  fill: var(--color-yellow);
-  inset: 0;
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
-}
-
-.starFill {
-  opacity: 0;
-}
-
-.starWrap:hover .starFill {
-  opacity: 1;
-}
-
-.starWrap:hover .starOutline {
-  opacity: 0;
 }

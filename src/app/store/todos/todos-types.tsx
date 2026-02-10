@@ -2,7 +2,7 @@ export type TodoType = {
   id: number;
   title: string;
   description?: string;
-  isEditing?: boolean;
+  completed?: boolean;
 };
 
 export type TodosState = {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TodoEditor } from "@components/organisms/TodoEditor/TodoEditor";
+import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
 import { FiPlus } from "react-icons/fi";
 import { useAppSelector } from "./store/store";
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
@@ -20,7 +20,7 @@ function TodoPannel() {
       </h2>
 
       {isOpen ? (
-        <TodoEditor onClose={() => setIsOpen(false)} />
+        <CreateTodo onClose={() => setIsOpen(false)} />
       ) : (
         <button
           className="todo-editor-section__open-btn"
@@ -36,7 +36,6 @@ function TodoPannel() {
 }
 
 export default function App() {
-  const [view, setView] = useState<"list" | "card">("list");
   const todos = useAppSelector((state) => state.todos.todos);
 
   return (
@@ -62,13 +61,3 @@ export default function App() {
     </>
   );
 }
-
-// import { IoAdd } from "react-icons/io5";
-// <button
-//                 type="button"
-//                 className="todo-action__add-btn"
-//                 aria-label="open todo editor"
-//                 onClick={() => setIsOpen(!isOpen)}
-//               >
-//                 <IoAdd className="icon" /> <span>Create a task</span>
-//               </button>

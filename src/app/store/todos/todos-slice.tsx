@@ -35,8 +35,22 @@ const TodosSlice = createSlice({
     deleteTodo(state, action: PayloadAction<{ id: number }>) {
       state.todos = state.todos.filter((todo) => todo.id != action.payload.id);
     },
+
+    updateTodo(
+      state,
+      action: PayloadAction<{
+        id: number;
+        title: string;
+        description?: string;
+      }>,
+    ) {
+      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      if (!todo) return;
+      todo.title = action.payload.title;
+      todo.description = action.payload.description;
+    },
   },
 });
 
 export const todosReducer = TodosSlice.reducer;
-export const { deleteTodo, createTodo } = TodosSlice.actions;
+export const { deleteTodo, createTodo, updateTodo } = TodosSlice.actions;
