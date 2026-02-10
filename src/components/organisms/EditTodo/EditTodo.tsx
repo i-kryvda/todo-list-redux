@@ -4,39 +4,30 @@ import { TodoForm } from "@components/molecules/TodoForm/TodoForm";
 
 export function EditTodo({
   todo,
+  onClose,
 }: {
   todo: { id: number; title: string; description?: string };
+  onClose?: () => void;
 }) {
   const dispatch = useAppDispatch();
 
+  const handleSubmit = (data: { title: string; description?: string }) => {
+    dispatch(
+      updateTodo({
+        id: todo.id,
+        title: data.title,
+        description: data.description,
+      }),
+    );
+    onClose?.();
+  };
+
   return (
     <TodoForm
-      onSubmit={({ title, description }) =>
-        dispatch(
-          updateTodo({
-            id: todo.id,
-            title: title,
-            description: description,
-          }),
-        )
-      }
+      initialTitle={todo.title}
+      initialDescription={todo.description}
+      onClose={onClose}
+      onSubmit={handleSubmit}
     />
   );
 }
-
-// export function EditTodo({ todo, onClose }) {
-//   const dispatch = useAppDispatch();
-
-//   return (
-//     <TodoForm
-//       initialTitle={todo.title}
-//       initialDescription={todo.description}
-//       submitText="Save changes"
-//       onClose={onClose}
-//       onSubmit={({ title, description }) => {
-//         dispatch(updateTodo({ id: todo.id, title, description }));
-//         onClose?.();
-//       }}
-//     />
-//   );
-// }

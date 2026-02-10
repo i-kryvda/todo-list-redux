@@ -5,25 +5,35 @@ import { TodoItem } from "@components/molecules/TodoItem/TodoItem";
 // import { TodoEditor } from "../TodoEditor/TodoEditor";
 
 import s from "./TodoListView.module.scss";
+import { EditTodo } from "../EditTodo/EditTodo";
 
 interface TodoListViewProps {
   todos: TodoType[];
 }
 
-export function TodoListView({ todos }: TodoListViewProps) {
+function TodoItemView({ todo }: { todo: TodoType }) {
   const [isEditing, setIsEditing] = useState(false);
 
+  const onOpen = () => setIsEditing(true);
+  const onClose = () => setIsEditing(false);
+
+  return (
+    <>
+      {isEditing ? (
+        <EditTodo todo={todo} onClose={onClose} />
+      ) : (
+        <TodoItem todo={todo} onClick={onOpen} />
+      )}
+    </>
+  );
+}
+
+export function TodoListView({ todos }: TodoListViewProps) {
   return (
     <ul className={s.list}>
       {todos.map((item) => (
         <li key={item.id} className={s.listItem}>
-          {/* {item.isEditing ? <TodoEditor /> : <TodoItem todo={item} />} */}
-
-          {isEditing ? (
-            <p>Editing mode is enabled</p>
-          ) : (
-            <TodoItem todo={item} />
-          )}
+          <TodoItemView todo={item} />
         </li>
       ))}
     </ul>

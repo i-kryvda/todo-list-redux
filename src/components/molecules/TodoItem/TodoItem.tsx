@@ -6,7 +6,13 @@ import { GoStar, GoStarFill } from "react-icons/go";
 
 import s from "./TodoItem.module.scss";
 
-export function TodoItem({ todo }: { todo: TodoType }) {
+export function TodoItem({
+  todo,
+  onClick,
+}: {
+  todo: TodoType;
+  onClick?: () => void;
+}) {
   const dispatch = useAppDispatch();
 
   const description = todo.description?.trim()
@@ -25,6 +31,7 @@ export function TodoItem({ todo }: { todo: TodoType }) {
           <button
             type="button"
             className={s.itemButton + " " + s.itemButtonEdit}
+            onClick={onClick}
           >
             edit
           </button>

@@ -26,7 +26,7 @@ const TodosSlice = createSlice({
             id: Date.now(),
             title,
             description,
-            isEditing: false,
+            completed: false,
           },
         };
       },
@@ -49,8 +49,15 @@ const TodosSlice = createSlice({
       todo.title = action.payload.title;
       todo.description = action.payload.description;
     },
+
+    toggleTodo(state, action: PayloadAction<{ id: number }>) {
+      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      if (!todo) return;
+      todo.completed = !todo.completed;
+    },
   },
 });
 
 export const todosReducer = TodosSlice.reducer;
-export const { deleteTodo, createTodo, updateTodo } = TodosSlice.actions;
+export const { deleteTodo, createTodo, updateTodo, toggleTodo } =
+  TodosSlice.actions;
