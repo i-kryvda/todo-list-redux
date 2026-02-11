@@ -4,9 +4,10 @@
 
 - sidebar panel ✔
 - theme dark ✔
-- create todo
-- edit todo
-- delete todo
+- create todo ✔
+- edit todo ✔
+- delete todo ✔
+- completed todo ✔
 - pin todo
 - filter todo
 - adaptive, of course !

@@ -1,10 +1,9 @@
+import type { TodoType } from "@app/store/todos/todos-types";
 import { useAppDispatch } from "@app/store/store";
 import { deleteTodo } from "@app/store/todos/todos-slice";
-import type { TodoType } from "@app/store/todos/todos-types";
-
 import { GoStar, GoStarFill } from "react-icons/go";
-
 import s from "./TodoItem.module.scss";
+import { useState } from "react";
 
 export function TodoItem({
   todo,
@@ -13,6 +12,7 @@ export function TodoItem({
   todo: TodoType;
   onClick?: () => void;
 }) {
+  const [completed, setCompleted] = useState(false);
   const dispatch = useAppDispatch();
 
   const description = todo.description?.trim()
@@ -45,7 +45,17 @@ export function TodoItem({
         </div>
       </div>
       <div className={s.itemBody}>
-        <p className={s.itemTitle}>{todo.title}</p>
+        <label className={s.itemLabel}>
+          <input
+            type="checkbox"
+            className={s.nativeCheckbox}
+            checked={completed}
+            onChange={() => setCompleted(!completed)}
+          />
+          <span className={s.customCheckbox} />
+          <span className={s.itemTitle}>{todo.title}</span>
+        </label>
+
         <p className={s.itemDescription}>{description}</p>
       </div>
     </div>

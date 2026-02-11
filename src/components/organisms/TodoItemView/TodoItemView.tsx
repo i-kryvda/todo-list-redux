@@ -4,6 +4,7 @@ import { EditTodo } from "@components/organisms/EditTodo/EditTodo";
 import { TodoItem } from "@components/molecules/TodoItem/TodoItem";
 import type { TodoType } from "@app/store/todos/todos-types";
 
+// TodoItemBox | TodoItemController | TodoItemContainer
 export function TodoItemView({ todo }: { todo: TodoType }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -16,6 +17,7 @@ export function TodoItemView({ todo }: { todo: TodoType }) {
         <EditTodo todo={todo} onClose={onClose} />
       ) : (
         <TodoItem todo={todo} onClick={onOpen} />
+        // <TodoItem todo={todo} onEdit={() => setIsEditing(true)} />
       )}
     </>
   );
