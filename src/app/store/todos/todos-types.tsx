@@ -5,10 +5,12 @@ export type TodoType = {
   completed?: boolean;
 };
 
+export type FilterType = "all" | "active" | "completed";
+
 export type TodosState = {
   todos: TodoType[];
   loading: boolean;
   error: string | null;
+  filter: FilterType;
   search: string;
-  filteredTodos: TodoType[];
 };

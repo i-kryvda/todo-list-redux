@@ -16,7 +16,7 @@ export function TodoItemView({ todo }: { todo: TodoType }) {
       {isEditing ? (
         <EditTodo todo={todo} onClose={onClose} />
       ) : (
-        <TodoItem todo={todo} onClick={onOpen} />
+        <TodoItem todo={todo} onEdit={onOpen} />
         // <TodoItem todo={todo} onEdit={() => setIsEditing(true)} />
       )}
     </>

@@ -1,6 +1,10 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { TodosState, TodoType } from "@app/store/todos/todos-types.tsx";
+import type {
+  TodosState,
+  TodoType,
+  FilterType,
+} from "@app/store/todos/todos-types.tsx";
 // import { todosThunks } from "@app/store/todos/todos-thunks.tsx";
 // import { setSearchAndFilter } from "@app/store/todos/todos-actions.tsx";
 
@@ -8,7 +12,7 @@ const initialState: TodosState = {
   todos: [],
   loading: false,
   error: "",
-  filteredTodos: [],
+  filter: "all",
   search: "",
 };
 
@@ -54,6 +58,10 @@ const TodosSlice = createSlice({
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (!todo) return;
       todo.completed = !todo.completed;
+    },
+
+    setFilter(state, action: PayloadAction<FilterType>) {
+      state.filter = action.payload;
     },
   },
 });

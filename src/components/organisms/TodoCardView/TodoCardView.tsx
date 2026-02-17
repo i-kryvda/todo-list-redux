@@ -1,6 +1,6 @@
+import { TodoItemView } from "../TodoItemView/TodoItemView";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoCardView.module.scss";
-import { TodoItemView } from "../TodoItemView/TodoItemView";
 
 interface TodoListViewProps {
   todos: TodoType[];

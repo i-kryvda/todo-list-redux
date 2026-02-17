@@ -1,18 +1,16 @@
-import type { TodoType } from "@app/store/todos/todos-types";
 import { useAppDispatch } from "@app/store/store";
-import { deleteTodo } from "@app/store/todos/todos-slice";
+import { deleteTodo, toggleTodo } from "@app/store/todos/todos-slice";
 import { GoStar, GoStarFill } from "react-icons/go";
+import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
-import { useState } from "react";
 
 export function TodoItem({
   todo,
-  onClick,
+  onEdit,
 }: {
   todo: TodoType;
-  onClick?: () => void;
+  onEdit?: () => void;
 }) {
-  const [completed, setCompleted] = useState(false);
   const dispatch = useAppDispatch();
 
   const description = todo.description?.trim()
@@ -20,7 +18,7 @@ export function TodoItem({
     : "description is empty";
 
   return (
-    <div className={s.item} key={todo.id}>
+    <div className={s.item}>
       <div className={s.itemActions}>
         <button type="button" className={s.itemStarWrap}>
           <GoStar className={s.itemStarOutline} size={18} />
@@ -31,7 +29,7 @@ export function TodoItem({
           <button
             type="button"
             className={s.itemButton + " " + s.itemButtonEdit}
-            onClick={onClick}
+            onClick={onEdit}
           >
             edit
           </button>
@@ -49,8 +47,8 @@ export function TodoItem({
           <input
             type="checkbox"
             className={s.nativeCheckbox}
-            checked={completed}
-            onChange={() => setCompleted(!completed)}
+            checked={todo.completed}
+            onChange={() => dispatch(toggleTodo({ id: todo.id }))}
           />
           <span className={s.customCheckbox} />
           <span className={s.itemTitle}>{todo.title}</span>
