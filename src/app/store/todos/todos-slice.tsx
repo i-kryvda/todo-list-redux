@@ -12,7 +12,7 @@ const initialState: TodosState = {
   todos: [],
   loading: false,
   error: "",
-  filter: "all",
+  filter: "active",
   search: "",
 };
 
@@ -38,6 +38,10 @@ const TodosSlice = createSlice({
 
     deleteTodo(state, action: PayloadAction<{ id: number }>) {
       state.todos = state.todos.filter((todo) => todo.id != action.payload.id);
+    },
+
+    clearCompleted(state) {
+      state.todos = state.todos.filter((todo) => !todo.completed);
     },
 
     updateTodo(
@@ -67,5 +71,11 @@ const TodosSlice = createSlice({
 });
 
 export const todosReducer = TodosSlice.reducer;
-export const { deleteTodo, createTodo, updateTodo, toggleTodo } =
-  TodosSlice.actions;
+export const {
+  deleteTodo,
+  clearCompleted,
+  createTodo,
+  updateTodo,
+  toggleTodo,
+  setFilter,
+} = TodosSlice.actions;

@@ -51,7 +51,8 @@ export default function App() {
         <main className="main">
           <div className="main__container">
             <TodoPannel />
-            {todos.length > 0 && <TodoList />}
+            {/* {todos.length > 0 && <TodoList />} */}
+            <TodoList />
           </div>
         </main>
         <footer className="footer">

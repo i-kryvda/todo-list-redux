@@ -15,3 +15,7 @@ export const selectFilteredTodos = createSelector(
     });
   },
 );
+
+export const selectHasCompleted = createSelector([selectTodos], (todos) => {
+  return todos.some((todo) => todo.completed);
+});

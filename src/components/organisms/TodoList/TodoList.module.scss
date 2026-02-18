@@ -1,7 +1,15 @@
 .todo {
+  &Header {
+    // border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    margin-bottom: 3rem;
+  }
+
   &ToggleViewButton {
     font-size: 1.6rem;
-    margin-bottom: 3rem;
+
     display: flex;
     text-transform: uppercase;
     justify-content: center;
@@ -23,10 +31,8 @@
     &:hover svg {
       color: var(--primary-color-hover);
     }
-
-    &:focus-visible {
-      outline: 2px solid var(--primary-color);
-      outline-offset: 4px;
+    &:disabled {
+      opacity: 0.5;
     }
   }
 }

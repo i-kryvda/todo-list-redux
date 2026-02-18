@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { BsLayoutSidebar } from "react-icons/bs";
 
-import { FaRegPlusSquare } from "react-icons/fa";
+// import { FaRegPlusSquare } from "react-icons/fa";
+// import { CiCirclePlus } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineEventNote } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
+
+import { MdDoneOutline } from "react-icons/md";
 
 import s from "./Sidebar.module.scss";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
+import { useAppDispatch } from "@app/store/store";
+import { setFilter } from "@app/store/todos/todos-slice";
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(() => {
@@ -17,6 +22,8 @@ export function Sidebar() {
     return true;
   });
   const { theme, toggleTheme } = useTheme();
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     localStorage.setItem("sidebar-collapsed", collapsed.toString());
@@ -38,19 +45,25 @@ export function Sidebar() {
             <span className={s.sidebarText}>Search </span>
           </li>
 
-          <li className={s.sidebarItem}>
+          <li
+            className={s.sidebarItem}
+            onClick={() => dispatch(setFilter("active"))}
+          >
             <MdOutlineEventNote className={s.sidebarIcon} />
             <span className={s.sidebarText}>Activity</span>
           </li>
 
-          <li className={s.sidebarItem}>
-            <FaRegTrashAlt className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Trash</span>
+          <li
+            className={s.sidebarItem}
+            onClick={() => dispatch(setFilter("completed"))}
+          >
+            <MdDoneOutline className={s.sidebarIcon} />
+            <span className={s.sidebarText}>Completed</span>
           </li>
 
           <li className={s.sidebarItem}>
-            <FaRegPlusSquare className={s.sidebarIcon} />
-            <span className={s.sidebarText}> Create</span>
+            <FaPlus className={s.sidebarIcon} />
+            <span className={s.sidebarText}>Create </span>
           </li>
         </ul>
       </nav>
