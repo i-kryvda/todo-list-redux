@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+// import { GiCrossMark } from "react-icons/gi";
+import { IoEyeSharp } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import {
   selectFilteredTodos,
@@ -66,17 +68,18 @@ export function TodoList() {
 
       <div className={s.todoBody}>
         {todos.length === 0 ? (
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "3rem",
-              padding: "5rem",
-              border: "1px solid white",
-              opacity: 0.5,
-            }}
-          >
-            Items empty
-          </p>
+          <div className="todo-empty">
+            <span className="todo-empty__crose">
+              <IoEyeSharp size={20} />
+            </span>
+            <span className="todo-empty__text">
+              The first step is always small.
+            </span>
+
+            <div className="todo-empty__bar todo-empty__bar--long" />
+            <div className="todo-empty__bar todo-empty__bar--long" />
+            <div className="todo-empty__bar todo-empty__bar--short" />
+          </div>
         ) : (
           <>
             {view === "list" && <TodoListView todos={todos} />}
