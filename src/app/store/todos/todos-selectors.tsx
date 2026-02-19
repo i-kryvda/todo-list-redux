@@ -8,11 +8,21 @@ export const selectSearch = (state: AppState) => state.todos.search;
 export const selectFilteredTodos = createSelector(
   [selectTodos, selectFilter],
   (todos, filter) => {
-    return todos.filter((todo) => {
-      if (filter === "active") return !todo.completed;
-      if (filter === "completed") return todo.completed;
-      return true;
-    });
+    if (filter === "active") return todos.filter((t) => !t.completed);
+    if (filter === "completed") return todos.filter((t) => t.completed);
+    return todos;
+  },
+);
+
+export const selectSortedTodos = createSelector(
+  [selectFilteredTodos],
+  (todos) => [...todos].sort((a, b) => +!!b.pinned - +!!a.pinned),
+);
+
+export const selectPinnedCount = createSelector(
+  [selectSortedTodos],
+  (todos) => {
+    return todos.filter((todo) => todo.pinned).length;
   },
 );
 

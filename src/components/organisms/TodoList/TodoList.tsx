@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 // import { GiCrossMark } from "react-icons/gi";
-import { IoEyeSharp } from "react-icons/io5";
+
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import {
-  selectFilteredTodos,
   selectHasCompleted,
   selectFilter,
+  selectSortedTodos,
 } from "@app/store/todos/todos-selectors";
 
 import { TodoListView } from "../TodoListView/TodoListView";
@@ -17,10 +17,12 @@ import { AiOutlineClear } from "react-icons/ai";
 
 import s from "./TodoList.module.scss";
 import { clearCompleted } from "@app/store/todos/todos-slice";
+import { EmptyState } from "@components/atoms/EmptyState/EmptyState";
 
 export function TodoList() {
   const [view, setView] = useState<"list" | "card">("list");
-  const todos = useAppSelector(selectFilteredTodos);
+  const todos = useAppSelector(selectSortedTodos);
+
   const filter = useAppSelector(selectFilter);
   const hasCompleted = useAppSelector(selectHasCompleted);
   const dispatch = useAppDispatch();
@@ -42,6 +44,7 @@ export function TodoList() {
           type="button"
           className={s.todoToggleViewButton}
           aria-label="Toggle todo view"
+          disabled={todos.length === 0}
           onClick={() => setView((prev) => (prev === "list" ? "card" : "list"))}
         >
           <span>{view === "list" ? "Card view" : "List view"}</span>
@@ -68,18 +71,7 @@ export function TodoList() {
 
       <div className={s.todoBody}>
         {todos.length === 0 ? (
-          <div className="todo-empty">
-            <span className="todo-empty__crose">
-              <IoEyeSharp size={20} />
-            </span>
-            <span className="todo-empty__text">
-              The first step is always small.
-            </span>
-
-            <div className="todo-empty__bar todo-empty__bar--long" />
-            <div className="todo-empty__bar todo-empty__bar--long" />
-            <div className="todo-empty__bar todo-empty__bar--short" />
-          </div>
+          <EmptyState />
         ) : (
           <>
             {view === "list" && <TodoListView todos={todos} />}

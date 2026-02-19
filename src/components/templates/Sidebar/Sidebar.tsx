@@ -11,8 +11,9 @@ import { MdDoneOutline } from "react-icons/md";
 
 import s from "./Sidebar.module.scss";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
-import { useAppDispatch } from "@app/store/store";
+import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { setFilter } from "@app/store/todos/todos-slice";
+import { selectFilter } from "@app/store/todos/todos-selectors";
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(() => {
@@ -22,14 +23,13 @@ export function Sidebar() {
     return true;
   });
   const { theme, toggleTheme } = useTheme();
-
+  const toggleSidebar = () => setCollapsed((prev) => !prev);
+  const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     localStorage.setItem("sidebar-collapsed", collapsed.toString());
   }, [collapsed]);
-
-  const toggleSidebar = () => setCollapsed((prev) => !prev);
 
   return (
     <aside className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}>
@@ -46,7 +46,7 @@ export function Sidebar() {
           </li>
 
           <li
-            className={s.sidebarItem}
+            className={`${s.sidebarItem} ${filter === "active" ? s.sidebarItemActive : ""}`}
             onClick={() => dispatch(setFilter("active"))}
           >
             <MdOutlineEventNote className={s.sidebarIcon} />
@@ -54,7 +54,7 @@ export function Sidebar() {
           </li>
 
           <li
-            className={s.sidebarItem}
+            className={`${s.sidebarItem} ${filter === "completed" ? s.sidebarItemActive : ""}`}
             onClick={() => dispatch(setFilter("completed"))}
           >
             <MdDoneOutline className={s.sidebarIcon} />

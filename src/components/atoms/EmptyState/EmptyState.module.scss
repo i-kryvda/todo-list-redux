@@ -1,0 +1,66 @@
+.emptyState {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  padding: 2rem;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+
+  &Header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    color: var(--text-secondory);
+  }
+
+  &Bar {
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+
+    &Long {
+      width: 90%;
+    }
+
+    &Short {
+      width: 60%;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+  }
+
+  &::before {
+    width: 25px;
+    height: 25px;
+    bottom: -20px;
+    right: 40px;
+  }
+
+  &::after {
+    width: 15px;
+    height: 15px;
+    bottom: -35px;
+    right: 25px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

@@ -30,8 +30,22 @@
   &StarWrap {
     cursor: pointer;
     position: relative;
+    display: flex;
+    gap: 3rem;
     width: 18px;
     height: 18px;
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &Pinned {
+      & > .itemStarFill {
+        opacity: 1;
+        transform: scale(1.3);
+      }
+    }
   }
 
   &StarOutline,
@@ -83,6 +97,13 @@
       background-color: var(--color-red);
     }
   }
+}
+
+.itemPinnedCount {
+  left: 3rem;
+  position: absolute;
+  color: var(--text-secondory);
+  // border: 1px solid red;
 }
 
 .itemLabel {

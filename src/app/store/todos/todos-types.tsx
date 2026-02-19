@@ -3,6 +3,7 @@ export type TodoType = {
   title: string;
   description?: string;
   completed?: boolean;
+  pinned?: boolean;
 };
 
 export type FilterType = "all" | "active" | "completed";

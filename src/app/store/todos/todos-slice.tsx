@@ -31,6 +31,7 @@ const TodosSlice = createSlice({
             title,
             description,
             completed: false,
+            pinned: false,
           },
         };
       },
@@ -64,6 +65,16 @@ const TodosSlice = createSlice({
       todo.completed = !todo.completed;
     },
 
+    pinTodo(state, action: PayloadAction<{ id: number }>) {
+      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      if (!todo) return;
+
+      const pinnedCount = state.todos.filter((t) => t.pinned).length;
+      if (!todo.pinned && pinnedCount >= 3) return;
+
+      todo.pinned = !todo.pinned;
+    },
+
     setFilter(state, action: PayloadAction<FilterType>) {
       state.filter = action.payload;
     },
@@ -77,5 +88,6 @@ export const {
   createTodo,
   updateTodo,
   toggleTodo,
+  pinTodo,
   setFilter,
 } = TodosSlice.actions;
