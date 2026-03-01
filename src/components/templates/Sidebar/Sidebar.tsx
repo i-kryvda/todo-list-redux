@@ -40,10 +40,10 @@ export function Sidebar() {
 
       <nav className={s.sidebarNav}>
         <ul className={s.sidebarList}>
-          <li className={s.sidebarItem}>
+          {/* <li className={s.sidebarItem}>
             <IoSearch className={s.sidebarIcon} />
             <span className={s.sidebarText}>Search </span>
-          </li>
+          </li> */}
 
           <li
             className={`${s.sidebarItem} ${filter === "active" ? s.sidebarItemActive : ""}`}

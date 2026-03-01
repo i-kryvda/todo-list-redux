@@ -1,0 +1,22 @@
+.confirmDeleteModal {
+  &Title {
+    padding: 1rem;
+    border-bottom: 1px solid white;
+    font-size: 2rem;
+  }
+
+  &Buttons {
+    padding: 3rem;
+    display: flex;
+    gap: 2rem;
+  }
+
+  &Button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+  }
+
+  &ButtonConfirm {
+    background-color: #2a7aef;
+  }
+}

@@ -1,9 +1,11 @@
+import { GoStar, GoStarFill } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { deleteTodo, pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
-import { GoStar, GoStarFill } from "react-icons/go";
+import { selectPinnedCount } from "@app/store/todos/todos-selectors";
+import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
+import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
-import { selectPinnedCount } from "@app/store/todos/todos-selectors";
 
 export function TodoItem({
   todo,
@@ -12,6 +14,7 @@ export function TodoItem({
   todo: TodoType;
   onEdit?: () => void;
 }) {
+  const { openModal, closeModal } = useModalStack();
   const dispatch = useAppDispatch();
   const pinnedCount = useAppSelector(selectPinnedCount);
   const isLimitExceeded = !todo.pinned && pinnedCount >= 3;
@@ -19,6 +22,15 @@ export function TodoItem({
   const description = todo.description?.trim()
     ? todo.description
     : "description is empty";
+
+  const handleDelete = (id: number) => {
+    openModal((modalId) => (
+      <ConfirmDeleteModal
+        onConfirm={() => dispatch(deleteTodo({ id }))}
+        onClose={() => closeModal(modalId)}
+      />
+    ));
+  };
 
   return (
     <div className={s.item}>
@@ -46,7 +58,7 @@ export function TodoItem({
           <button
             type="button"
             className={s.itemButton + " " + s.itemButtonDelete}
-            onClick={() => dispatch(deleteTodo({ id: todo.id }))}
+            onClick={() => handleDelete(todo.id)}
           >
             delete
           </button>
