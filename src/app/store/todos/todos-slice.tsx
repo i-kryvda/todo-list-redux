@@ -27,7 +27,7 @@ const TodosSlice = createSlice({
       prepare(title: string, description?: string) {
         return {
           payload: {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             title,
             description,
             completed: false,
@@ -37,7 +37,7 @@ const TodosSlice = createSlice({
       },
     },
 
-    deleteTodo(state, action: PayloadAction<{ id: number }>) {
+    deleteTodo(state, action: PayloadAction<{ id: string }>) {
       state.todos = state.todos.filter((todo) => todo.id != action.payload.id);
     },
 
@@ -48,7 +48,7 @@ const TodosSlice = createSlice({
     updateTodo(
       state,
       action: PayloadAction<{
-        id: number;
+        id: string;
         title: string;
         description?: string;
       }>,
@@ -59,13 +59,13 @@ const TodosSlice = createSlice({
       todo.description = action.payload.description;
     },
 
-    toggleTodo(state, action: PayloadAction<{ id: number }>) {
+    toggleTodo(state, action: PayloadAction<{ id: string }>) {
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (!todo) return;
       todo.completed = !todo.completed;
     },
 
-    pinTodo(state, action: PayloadAction<{ id: number }>) {
+    pinTodo(state, action: PayloadAction<{ id: string }>) {
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (!todo) return;
 

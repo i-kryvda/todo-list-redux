@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { BsLayoutSidebar } from "react-icons/bs";
-
-// import { FaRegPlusSquare } from "react-icons/fa";
-// import { CiCirclePlus } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
-import { IoSearch } from "react-icons/io5";
+// import { IoSearch } from "react-icons/io5";
 import { MdOutlineEventNote } from "react-icons/md";
 
 import { MdDoneOutline } from "react-icons/md";
 
-import s from "./Sidebar.module.scss";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { setFilter } from "@app/store/todos/todos-slice";
 import { selectFilter } from "@app/store/todos/todos-selectors";
+
+import s from "./Sidebar.module.scss";
+import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
+// import { CreateModal } from "@components/molecules/CreateModal/CreateModal";
+import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(() => {
@@ -26,6 +27,14 @@ export function Sidebar() {
   const toggleSidebar = () => setCollapsed((prev) => !prev);
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
+  const { openModal, closeModal } = useModalStack();
+
+  const handleCreate = () => {
+    openModal((modalId) => {
+      const close = () => closeModal(modalId);
+      return <CreateTodo onSubmitSuccess={close} onClose={close} />;
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("sidebar-collapsed", collapsed.toString());
@@ -61,7 +70,7 @@ export function Sidebar() {
             <span className={s.sidebarText}>Completed</span>
           </li>
 
-          <li className={s.sidebarItem}>
+          <li className={s.sidebarItem} onClick={handleCreate}>
             <FaPlus className={s.sidebarIcon} />
             <span className={s.sidebarText}>Create </span>
           </li>

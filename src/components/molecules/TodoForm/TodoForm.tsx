@@ -3,6 +3,7 @@
 import { useInput } from "@shared/hooks/useInput/useInput";
 // --- STYLES ---
 import s from "./TodoForm.module.scss";
+import { useEffect, useRef } from "react";
 
 type TodoFormProps = {
   onClose?: () => void;
@@ -19,6 +20,8 @@ export function TodoForm({
   initialDescription = "",
   submitText = "Save",
 }: TodoFormProps) {
+  const ref = useRef<HTMLInputElement>(null);
+
   const {
     value: title,
     onChange: onChangeTitle,
@@ -35,7 +38,12 @@ export function TodoForm({
     onSubmit({ title, description });
     onResetTitle();
     onResetDescription();
+    // onClose?.();
   };
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   return (
     <form className={s.editor} onSubmit={handleSubmit}>
@@ -55,6 +63,7 @@ export function TodoForm({
           placeholder="Create title..."
           value={title}
           onChange={onChangeTitle}
+          ref={ref}
         />
 
         <label

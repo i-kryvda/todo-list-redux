@@ -23,7 +23,7 @@ export function TodoItem({
     ? todo.description
     : "description is empty";
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     openModal((modalId) => (
       <ConfirmDeleteModal
         onConfirm={() => dispatch(deleteTodo({ id }))}
