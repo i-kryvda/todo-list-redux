@@ -80,10 +80,14 @@
 
   &Button {
     cursor: pointer;
-    font-size: 0;
+
     width: 15px;
     height: 15px;
     // border-radius: 50%;
+
+    & > span {
+      font-size: 0;
+    }
 
     &Complete {
       background-color: var(--color-green);

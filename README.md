@@ -11,6 +11,8 @@
 - pin todo
 - filter todo
 - adaptive, of course !
+- stack modals [esc, focus, overlay, confirm, create]
+- tooltip custom
 
 ### need
 

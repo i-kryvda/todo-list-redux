@@ -26,7 +26,7 @@ export function TodoList() {
   const filter = useAppSelector(selectFilter);
   const hasCompleted = useAppSelector(selectHasCompleted);
   const dispatch = useAppDispatch();
-  const canClearCompleted = filter === "completed";
+
   // filter === "completed" || (!hasCompleted && filter !== "active");
 
   // useEffect(() => {
@@ -51,7 +51,7 @@ export function TodoList() {
           {view === "list" ? <HiOutlineViewGrid /> : <HiOutlineViewList />}
         </button>
 
-        {canClearCompleted && (
+        {filter === "completed" && (
           <button
             type="button"
             className={s.todoToggleViewButton}

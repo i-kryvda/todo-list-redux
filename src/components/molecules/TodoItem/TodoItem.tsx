@@ -1,9 +1,11 @@
 import { GoStar, GoStarFill } from "react-icons/go";
+import { TiEdit } from "react-icons/ti";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { deleteTodo, pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
 import { selectPinnedCount } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal";
+import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
 
@@ -48,20 +50,23 @@ export function TodoItem({
         </button>
 
         <div className={s.itemButtonsWrap}>
-          <button
-            type="button"
-            className={s.itemButton + " " + s.itemButtonEdit}
-            onClick={onEdit}
-          >
-            edit
-          </button>
-          <button
-            type="button"
-            className={s.itemButton + " " + s.itemButtonDelete}
-            onClick={() => handleDelete(todo.id)}
-          >
-            delete
-          </button>
+          <Tooltip content="EDIT">
+            <button
+              type="button"
+              className={s.itemButton + " " + s.itemButtonEdit}
+              onClick={onEdit}
+              aria-label="Edit todo"
+            />
+          </Tooltip>
+
+          <Tooltip content="DELETE">
+            <button
+              type="button"
+              className={s.itemButton + " " + s.itemButtonDelete}
+              onClick={() => handleDelete(todo.id)}
+              aria-label="Delete todo"
+            />
+          </Tooltip>
         </div>
       </div>
       <div className={s.itemBody}>

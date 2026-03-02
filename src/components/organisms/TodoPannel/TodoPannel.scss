@@ -1,10 +1,6 @@
 .todo-editor-section {
   padding-top: 5rem;
 
-  &:not(:last-child) {
-    margin-bottom: 10rem;
-  }
-
   &__open-btn {
     cursor: pointer;
     display: flex;

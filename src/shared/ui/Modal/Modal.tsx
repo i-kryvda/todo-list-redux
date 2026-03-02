@@ -16,7 +16,6 @@ export function Modal({
   isTopmost = true,
 }: ModalProps) {
   const contentRef = useRef<HTMLDivElement | null>(null);
-
   useFocusTrap(contentRef, isTopmost);
 
   return (
