@@ -3,7 +3,12 @@
 import { useInput } from "@shared/hooks/useInput/useInput";
 // --- STYLES ---
 import s from "./TodoForm.module.scss";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  MAX_TITLE_LENGTH,
+  truncateDescription,
+  validateTitle,
+} from "./lib/validateTodo";
 
 type TodoFormProps = {
   onClose?: () => void;
@@ -33,9 +38,19 @@ export function TodoForm({
     onReset: onResetDescription,
   } = useInput(initialDescription);
 
+  const [titleError, setTitleError] = useState<string | null>(null);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit({ title, description });
+
+    const error = validateTitle(title);
+    setTitleError(error);
+    if (error) return;
+
+    const trimmedTitle = title.trim();
+    const trimmedDescription = truncateDescription(description);
+
+    onSubmit({ title: trimmedTitle, description: trimmedDescription });
     onResetTitle();
     onResetDescription();
     // onClose?.();
@@ -45,8 +60,13 @@ export function TodoForm({
     ref.current?.focus();
   }, []);
 
+  useEffect(() => {
+    setTitleError(validateTitle(title));
+  }, [title]);
+
   return (
     <form className={s.editor} onSubmit={handleSubmit}>
+      {titleError && <p className={s.error}>{titleError}</p>}
       <div className={s.editorBody}>
         <label
           htmlFor="todo-title"
@@ -84,6 +104,9 @@ export function TodoForm({
       </div>
 
       <div className={s.editorFooter}>
+        <div className={s.counter}>
+          {title.length} / {MAX_TITLE_LENGTH}
+        </div>
         <button
           type="button"
           className={`${s.editorBtn} ${s.editorBtnSecondary}`}
@@ -95,7 +118,7 @@ export function TodoForm({
         <button
           type="submit"
           className={`${s.editorBtn} ${s.editorBtnPrimary}`}
-          disabled={!title.trim()}
+          disabled={!!titleError}
         >
           {submitText}
         </button>

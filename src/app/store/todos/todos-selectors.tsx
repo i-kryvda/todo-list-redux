@@ -19,10 +19,10 @@ export const selectSortedTodos = createSelector(
   (todos) => [...todos].sort((a, b) => +!!b.pinned - +!!a.pinned),
 );
 
-export const selectPinnedCount = createSelector(
+export const selectTodoLimitExceeded = createSelector(
   [selectSortedTodos],
   (todos) => {
-    return todos.filter((todo) => todo.pinned).length;
+    return todos.filter((todo) => todo.pinned).length >= 3;
   },
 );
 

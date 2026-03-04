@@ -16,13 +16,20 @@ const initialState: TodosState = {
   search: "",
 };
 
+const MAX_PINNED = 3;
+
 const TodosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
     createTodo: {
       reducer(state, action: PayloadAction<TodoType>) {
-        state.todos.unshift(action.payload);
+        const { title } = action.payload;
+
+        state.todos.unshift({
+          ...action.payload,
+          title: title.trim(),
+        });
       },
       prepare(title: string, description?: string) {
         return {
@@ -63,6 +70,7 @@ const TodosSlice = createSlice({
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (!todo) return;
       todo.completed = !todo.completed;
+      todo.pinned = false;
     },
 
     pinTodo(state, action: PayloadAction<{ id: string }>) {
@@ -70,7 +78,7 @@ const TodosSlice = createSlice({
       if (!todo) return;
 
       const pinnedCount = state.todos.filter((t) => t.pinned).length;
-      if (!todo.pinned && pinnedCount >= 3) return;
+      if (!todo.pinned && pinnedCount >= MAX_PINNED) return;
 
       todo.pinned = !todo.pinned;
     },

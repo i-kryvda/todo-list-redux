@@ -29,8 +29,13 @@ html[data-theme="light"] {
   --bg-main: #f9fafb;
   --text-primary: #111;
   --sidebar-color: #d7d7d7;
-  --hover-color: #e26a60;
+  --hover-color: #f9fafb;
   --toggle-circle-x: 19px;
+}
+
+:root {
+  --sidebar-collapsed: 90px;
+  --sidebar-expanded: 260px;
 }
 
 html {
@@ -59,6 +64,13 @@ body {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.appCollapsed {
+  margin-left: 90px;
 }
 
 .main {
@@ -72,7 +84,11 @@ body {
 .header,
 .footer {
   padding: 25px 0px;
-  border-bottom: 1px solid var(--border-color);
+  // border-bottom: 1px solid var(--border-color);
+}
+
+.footer {
+  border-top: 1px solid var(--border-color);
 }
 
 .header__container,

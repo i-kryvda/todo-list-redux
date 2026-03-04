@@ -1,8 +1,7 @@
 import { GoStar, GoStarFill } from "react-icons/go";
-import { TiEdit } from "react-icons/ti";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { deleteTodo, pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
-import { selectPinnedCount } from "@app/store/todos/todos-selectors";
+import { selectTodoLimitExceeded } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal";
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
@@ -18,8 +17,7 @@ export function TodoItem({
 }) {
   const { openModal, closeModal } = useModalStack();
   const dispatch = useAppDispatch();
-  const pinnedCount = useAppSelector(selectPinnedCount);
-  const isLimitExceeded = !todo.pinned && pinnedCount >= 3;
+  const LimitExceeded = useAppSelector(selectTodoLimitExceeded);
 
   const description = todo.description?.trim()
     ? todo.description
@@ -37,17 +35,17 @@ export function TodoItem({
   return (
     <div className={s.item}>
       <div className={s.itemActions}>
-        <button
-          type="button"
-          disabled={isLimitExceeded}
-          className={`${s.itemStarWrap} ${todo.pinned ? s.itemStarWrapPinned : ""}`}
-          onClick={() => dispatch(pinTodo({ id: todo.id }))}
-        >
-          <GoStar className={s.itemStarOutline} size={18} />
-          <GoStarFill className={s.itemStarFill} size={18} />
-
-          <span className={s.itemPinnedCount}>{pinnedCount}/3</span>
-        </button>
+        <Tooltip content="PIN">
+          <button
+            type="button"
+            disabled={todo.completed || (!todo.pinned && LimitExceeded)}
+            className={`${s.itemStarWrap} ${todo.pinned ? s.itemStarWrapPinned : ""}`}
+            onClick={() => dispatch(pinTodo({ id: todo.id }))}
+          >
+            <GoStar className={s.itemStarOutline} size={18} />
+            <GoStarFill className={s.itemStarFill} size={18} />
+          </button>
+        </Tooltip>
 
         <div className={s.itemButtonsWrap}>
           <Tooltip content="EDIT">

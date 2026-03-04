@@ -4,11 +4,12 @@
   &Body {
     padding: 1rem;
     border-top: 1px solid var(--border-color);
+    word-break: break-word; // переносить довгі слова на новий рядок
+    overflow-wrap: anywhere; // сучасний аналог, робить теж саме
   }
 
   &Title {
     padding: 1rem 0rem;
-    font-size: 2rem;
     // border-bottom: 1px solid var(--border-color);
     // margin-bottom: 1rem;
   }
@@ -31,7 +32,6 @@
     cursor: pointer;
     position: relative;
     display: flex;
-    gap: 3rem;
     width: 18px;
     height: 18px;
 
@@ -83,14 +83,9 @@
 
     width: 15px;
     height: 15px;
-    // border-radius: 50%;
 
     & > span {
       font-size: 0;
-    }
-
-    &Complete {
-      background-color: var(--color-green);
     }
 
     &Edit {
@@ -104,15 +99,18 @@
 }
 
 .itemPinnedCount {
-  left: 3rem;
-  position: absolute;
+  // left: 3rem;
+  // position: absolute;
   color: var(--text-secondory);
   // border: 1px solid red;
 }
 
 .itemLabel {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  font-size: 1.8rem;
+  // line-height: 100%;
+  // border: 1px solid red;
   gap: 10px;
   cursor: pointer;
   user-select: none;
@@ -125,10 +123,13 @@
 }
 
 .customCheckbox {
+  flex: 0 0 18px;
   width: 18px;
   height: 18px;
+  margin: 1rem 0rem;
   // border-radius: 50%;
-  border: 2px solid #9ca3af;
+  // border: 2px solid #9ca3af;
+  border: 2px solid #006633;
   display: grid;
   place-items: center;
   transition:

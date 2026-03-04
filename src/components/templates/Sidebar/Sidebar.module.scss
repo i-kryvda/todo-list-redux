@@ -3,15 +3,25 @@
   --sidebar-expanded: 260px;
 }
 
+.sidebarNav {
+  border: 1px solid var(--border-color);
+  background-color: var(--sidebar-color);
+}
+
+.theme {
+  border: 1px solid var(--border-color);
+  background-color: var(--sidebar-color);
+}
+
 .sidebar {
+  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
   gap: 3rem;
   width: var(--sidebar-expanded);
   min-height: 100%;
-  background-color: var(--sidebar-color);
-  padding: 2rem;
-  border-right: 1px solid var(--border-color);
+
   transition: width 0.3s ease;
 
   &Collapsed {
@@ -20,54 +30,59 @@
 
   &Collapsed &ToggleText,
   &Collapsed &Text {
-    width: 0;
     opacity: 0;
     overflow: hidden;
+    pointer-events: none;
   }
 
   &Collapsed &Toggle svg {
     width: 100%;
   }
 
-  &Toggle {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 24px;
-    text-transform: uppercase;
-    color: var(--primary-color);
-    padding: 1rem;
-    transition: background-color 0.2s ease;
-  }
+  // &Toggle {
+  //   cursor: pointer;
+  //   // display: flex;
+  //   // align-items: center;
+  //   // justify-content: space-between;
+  //   position: absolute;
+  //   top: 25px;
+  //   right: -10px;
+  //   // font-size: 24px;
+  //   // text-transform: uppercase;
+  //   color: var(--primary-color);
+  //   // padding: 1rem;
+  //   // transition: background-color 0.2s ease;
+  // }
 
   &ToggleText,
   &Text {
     white-space: nowrap;
     width: auto;
     opacity: 1;
-    transition:
-      width 0.3s ease,
-      opacity 0.3s ease;
+    transition: opacity 0.3s ease;
   }
 
   &Nav {
     flex: 1 0 auto;
+    padding: 2rem;
   }
 
   &List {
+    // border: 1px solid var(--border-color);
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    // background-color: #1f1f1f;
   }
 
   &Item {
     cursor: pointer;
     display: flex;
     align-items: center;
+    text-transform: uppercase;
     gap: 1.5rem;
     padding: 1.2rem 1.4rem;
     // border-radius: 1rem;
@@ -77,7 +92,7 @@
 
     &Active {
       background-color: var(--hover-color);
-      border: 1px solid white;
+      // border: 1px solid white;
     }
 
     &:hover {
@@ -86,7 +101,11 @@
   }
 
   &Icon {
-    height: 100%;
+    width: 20px;
+    height: 20px;
+    // padding: 1rem;
+    // width: 100%;
+    // height: 100%;
     font-size: 20px;
     flex-shrink: 0;
   }
@@ -96,6 +115,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 2rem;
+  // border: 1px solid red;
 
   &Switch {
     cursor: pointer;
@@ -122,4 +143,68 @@
     // transform: translateX(20px);
     transition: transform 0.3s ease;
   }
+}
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+.sidebarToggleItem {
+  // border: 1px solid red;
+  padding: 0rem 1.4rem;
+  margin-bottom: 3rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  // border: 1px solid red;
+}
+
+.icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.atomic {
+  opacity: 1;
+}
+
+.layout {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+// .sidebarNav:hover .atomic {
+//   opacity: 0;
+// }
+
+// .sidebarNav:hover .layout {
+//   opacity: 1;
+//   transform: rotate(180deg);
+// }
+
+.sidebarToggleItem:hover .atomic {
+  opacity: 0;
+}
+
+.sidebarToggleItem:hover .layout {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  // background: rgba(0, 0, 0, 0.3);
 }
