@@ -8,6 +8,12 @@ import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
 
+export const MAX_DESCRIPTION_LENGTH = 250;
+const truncateDescription = (description: string): string => {
+  if (description.length <= MAX_DESCRIPTION_LENGTH) return description;
+  return description.slice(0, MAX_DESCRIPTION_LENGTH) + "...";
+};
+
 export function TodoItem({
   todo,
   onEdit,
@@ -22,6 +28,8 @@ export function TodoItem({
   const description = todo.description?.trim()
     ? todo.description
     : "description is empty";
+
+  const trimmedDescription = truncateDescription(description);
 
   const handleDelete = (id: string) => {
     openModal((modalId) => (
@@ -79,7 +87,7 @@ export function TodoItem({
           <span className={s.itemTitle}>{todo.title}</span>
         </label>
 
-        <p className={s.itemDescription}>{description}</p>
+        <p className={s.itemDescription}>{trimmedDescription}</p>
       </div>
     </div>
   );

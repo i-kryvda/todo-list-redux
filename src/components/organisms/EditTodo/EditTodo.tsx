@@ -6,7 +6,7 @@ export function EditTodo({
   todo,
   onClose,
 }: {
-  todo: { id: number; title: string; description?: string };
+  todo: { id: string; title: string; description?: string };
   onClose?: () => void;
 }) {
   const dispatch = useAppDispatch();

@@ -9,6 +9,7 @@ import {
   truncateDescription,
   validateTitle,
 } from "./lib/validateTodo";
+import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 
 type TodoFormProps = {
   onClose?: () => void;
@@ -39,6 +40,7 @@ export function TodoForm({
   } = useInput(initialDescription);
 
   const [titleError, setTitleError] = useState<string | null>(null);
+  const [touched, setTouched] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,12 +50,13 @@ export function TodoForm({
     if (error) return;
 
     const trimmedTitle = title.trim();
-    const trimmedDescription = truncateDescription(description);
+    // const trimmedDescription = truncateDescription(description);
 
-    onSubmit({ title: trimmedTitle, description: trimmedDescription });
+    onSubmit({ title: trimmedTitle, description });
     onResetTitle();
     onResetDescription();
-    // onClose?.();
+    setTitleError("");
+    setTouched(false);
   };
 
   useEffect(() => {
@@ -61,12 +64,30 @@ export function TodoForm({
   }, []);
 
   useEffect(() => {
+    if (!touched) return;
     setTitleError(validateTitle(title));
-  }, [title]);
+  }, [title, touched]);
+
+  const [visibleError, setVisibleError] = useState("");
+  useEffect(() => {
+    if (titleError) {
+      setVisibleError(titleError);
+    } else {
+      // даємо анімації завершитись
+      const timer = setTimeout(() => {
+        setVisibleError("");
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [titleError]);
 
   return (
     <form className={s.editor} onSubmit={handleSubmit}>
-      {titleError && <p className={s.error}>{titleError}</p>}
+      <div className={s.titleCounter}>
+        {title.length} / {MAX_TITLE_LENGTH}
+      </div>
+
       <div className={s.editorBody}>
         <label
           htmlFor="todo-title"
@@ -80,9 +101,10 @@ export function TodoForm({
           type="text"
           id="todo-title"
           className={`${s.editorField} ${s.editorFieldTitle}`}
-          placeholder="Create title..."
+          placeholder="Title is required"
           value={title}
           onChange={onChangeTitle}
+          onBlur={() => setTouched(true)}
           ref={ref}
         />
 
@@ -104,24 +126,34 @@ export function TodoForm({
       </div>
 
       <div className={s.editorFooter}>
-        <div className={s.counter}>
-          {title.length} / {MAX_TITLE_LENGTH}
-        </div>
-        <button
-          type="button"
-          className={`${s.editorBtn} ${s.editorBtnSecondary}`}
-          onClick={onClose}
+        <p
+          className={s.error}
+          style={{
+            opacity: titleError ? 1 : 0,
+            transform: titleError ? "translateX(0)" : "translateX(-10px)",
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+          }}
         >
-          Cancel
-        </button>
+          {visibleError}
+        </p>
 
-        <button
-          type="submit"
-          className={`${s.editorBtn} ${s.editorBtnPrimary}`}
-          disabled={!!titleError}
-        >
-          {submitText}
-        </button>
+        <div className={s.editorButtons}>
+          <button
+            type="button"
+            className={`${s.editorBtn} ${s.editorBtnSecondary}`}
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className={`${s.editorBtn} ${s.editorBtnPrimary}`}
+            disabled={!!titleError}
+          >
+            {submitText}
+          </button>
+        </div>
       </div>
     </form>
   );

@@ -1,6 +1,49 @@
+.titleCounter {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  // color: var(--success-color);
+  opacity: 0.5;
+}
+
+.error {
+  padding: 5px 10px;
+  background-color: var(--primary-color);
+  // color: white !important;
+  color: white;
+
+  font-size: 1rem;
+  border-radius: 12px;
+  // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  // opacity: 0.5;
+  // font-style: italic;
+  position: relative;
+  // border: 1px solid red;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 25%;
+    transform: translateX(-25%);
+    bottom: -5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--primary-color);
+  }
+}
+
 .editor {
   width: 100%;
   border: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
   // border-radius: 12px;
 
   &Body {
@@ -13,7 +56,9 @@
 
   &Field {
     padding: 0.25rem 1rem;
-    border-radius: 8px;
+    width: 75%;
+    // border: 1px solid white;
+    // padding-right: 15%;
     color: var(--text-primary);
     word-break: break-word; // переносить довгі слова на новий рядок
     overflow-wrap: anywhere; // сучасний аналог, робить теж саме
@@ -41,9 +86,17 @@
 
   &Footer {
     display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    padding: 1.25rem;
+    justify-content: space-between;
+    // gap: 0.75rem;
+    align-items: flex-end;
+    // border: 1px solid red;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  &Buttons {
+    display: flex;
+    gap: 1rem;
   }
 
   &Btn {
