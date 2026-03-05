@@ -1,5 +1,6 @@
 @use "../shared/assets/styles/null-style.scss";
-// @use "../shared/assets/styles/nullstyle";
+@import url("https://fonts.googleapis.com/css2?family=Electrolize&display=swap");
+$font-face: "Electrolize", sans-serif;
 
 // --accent-main
 // --accent-secondary
@@ -11,6 +12,7 @@
   --border-color: #3a3a3a;
   --color-white: #fff;
   --color-yellow: #ffba32;
+  --color-blue: #2b5278;
   --color-red: #fa584e;
   --sidebar-color: #262626;
   --primary-color: #e26a60;
@@ -43,6 +45,7 @@ html {
 }
 
 body {
+  font-family: $font-face;
   font-size: 1.6rem;
   background-color: var(--bg-main);
   color: var(--text-primary);

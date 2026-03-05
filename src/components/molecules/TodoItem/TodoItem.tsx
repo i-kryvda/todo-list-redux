@@ -5,14 +5,9 @@ import { selectTodoLimitExceeded } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal";
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
+import { truncate } from "./lib/truncate";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
-
-export const MAX_DESCRIPTION_LENGTH = 250;
-const truncateDescription = (description: string): string => {
-  if (description.length <= MAX_DESCRIPTION_LENGTH) return description;
-  return description.slice(0, MAX_DESCRIPTION_LENGTH) + "...";
-};
 
 export function TodoItem({
   todo,
@@ -29,7 +24,7 @@ export function TodoItem({
     ? todo.description
     : "description is empty";
 
-  const trimmedDescription = truncateDescription(description);
+  const trimmedDescription = truncate(description, 250);
 
   const handleDelete = (id: string) => {
     openModal((modalId) => (

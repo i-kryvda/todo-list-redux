@@ -4,12 +4,8 @@ import { useInput } from "@shared/hooks/useInput/useInput";
 // --- STYLES ---
 import s from "./TodoForm.module.scss";
 import { useEffect, useRef, useState } from "react";
-import {
-  MAX_TITLE_LENGTH,
-  truncateDescription,
-  validateTitle,
-} from "./lib/validateTodo";
-import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
+import { MAX_TITLE_LENGTH, validateTitle } from "./lib/validateTodo";
+import { useFieldError } from "./hook/useFieldError";
 
 type TodoFormProps = {
   onClose?: () => void;
@@ -39,48 +35,25 @@ export function TodoForm({
     onReset: onResetDescription,
   } = useInput(initialDescription);
 
-  const [titleError, setTitleError] = useState<string | null>(null);
-  const [touched, setTouched] = useState(false);
+  const {
+    error: titleError,
+    visibleError,
+    hasError,
+  } = useFieldError(title, validateTitle);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const error = validateTitle(title);
-    setTitleError(error);
-    if (error) return;
+    if (titleError) return;
 
     const trimmedTitle = title.trim();
-    // const trimmedDescription = truncateDescription(description);
-
     onSubmit({ title: trimmedTitle, description });
     onResetTitle();
     onResetDescription();
-    setTitleError("");
-    setTouched(false);
   };
 
   useEffect(() => {
     ref.current?.focus();
   }, []);
-
-  useEffect(() => {
-    if (!touched) return;
-    setTitleError(validateTitle(title));
-  }, [title, touched]);
-
-  const [visibleError, setVisibleError] = useState("");
-  useEffect(() => {
-    if (titleError) {
-      setVisibleError(titleError);
-    } else {
-      // даємо анімації завершитись
-      const timer = setTimeout(() => {
-        setVisibleError("");
-      }, 300);
-
-      return () => clearTimeout(timer);
-    }
-  }, [titleError]);
 
   return (
     <form className={s.editor} onSubmit={handleSubmit}>
@@ -98,13 +71,14 @@ export function TodoForm({
 
         <input
           required
+          aria-invalid={hasError}
+          aria-describedby={hasError ? "todo-title-error" : undefined}
           type="text"
           id="todo-title"
           className={`${s.editorField} ${s.editorFieldTitle}`}
           placeholder="Title is required"
           value={title}
           onChange={onChangeTitle}
-          onBlur={() => setTouched(true)}
           ref={ref}
         />
 
@@ -127,11 +101,13 @@ export function TodoForm({
 
       <div className={s.editorFooter}>
         <p
+          id="todo-title-error"
           className={s.error}
           style={{
-            opacity: titleError ? 1 : 0,
-            transform: titleError ? "translateX(0)" : "translateX(-10px)",
-            transition: "opacity 0.3s ease, transform 0.3s ease",
+            opacity: hasError ? 1 : 0,
+            transform: hasError
+              ? "translateX(0) scale(1)"
+              : "translateX(-200px) scale(0)",
           }}
         >
           {visibleError}
@@ -149,7 +125,7 @@ export function TodoForm({
           <button
             type="submit"
             className={`${s.editorBtn} ${s.editorBtnPrimary}`}
-            disabled={!!titleError}
+            disabled={hasError || !title.trim()}
           >
             {submitText}
           </button>
