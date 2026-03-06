@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { CreateTodo } from "../CreateTodo/CreateTodo";
-import { FiPlus } from "react-icons/fi";
-import "./TodoPannel.scss";
 import { useAppSelector } from "@app/store/store";
 import { selectFilter } from "@app/store/todos/todos-selectors";
+import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
+import { FiPlus } from "react-icons/fi";
+import "./TodoPannel.scss";
 
 export function TodoPannel() {
   const [isOpen, setIsOpen] = useState(false);

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { deleteTodo, pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
 import { selectTodoLimitExceeded } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
-import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal";
+import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 import { truncate } from "./lib/truncate";
 import type { TodoType } from "@app/store/todos/todos-types";
@@ -12,11 +12,25 @@ import s from "./TodoItem.module.scss";
 export function TodoItem({
   todo,
   onEdit,
+  onDelete,
 }: {
   todo: TodoType;
   onEdit?: () => void;
+  onDelete: (id: string) => void;
 }) {
-  const { openModal, closeModal } = useModalStack();
+  // const { openModal, closeModal } = useModalStack();
+
+  // const confirmDelete = (id: string) => dispatch(deleteTodo({ id }));
+
+  // const handleDelete = (id: string) => {
+  //   openModal((modalId) => (
+  //     <ConfirmDeleteModal
+  //       onConfirm={() => confirmDelete(id)}
+  //       onClose={() => closeModal(modalId)}
+  //     />
+  //   ));
+  // };
+
   const dispatch = useAppDispatch();
   const LimitExceeded = useAppSelector(selectTodoLimitExceeded);
 
@@ -25,15 +39,6 @@ export function TodoItem({
     : "description is empty";
 
   const trimmedDescription = truncate(description, 250);
-
-  const handleDelete = (id: string) => {
-    openModal((modalId) => (
-      <ConfirmDeleteModal
-        onConfirm={() => dispatch(deleteTodo({ id }))}
-        onClose={() => closeModal(modalId)}
-      />
-    ));
-  };
 
   return (
     <div className={s.item}>
@@ -64,7 +69,7 @@ export function TodoItem({
             <button
               type="button"
               className={s.itemButton + " " + s.itemButtonDelete}
-              onClick={() => handleDelete(todo.id)}
+              onClick={() => onDelete(todo.id)}
               aria-label="Delete todo"
             />
           </Tooltip>
