@@ -13,5 +13,5 @@ export type TodosState = {
   loading: boolean;
   error: string | null;
   filter: FilterType;
-  search: string;
+  searchQuery: string;
 };

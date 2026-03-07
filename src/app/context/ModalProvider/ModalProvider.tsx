@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useState } from "react";
-import { Modal } from "@shared/ui/Modal/Modal";
+import { Modal } from "@components/atoms/Modal/Modal";
 import { useLockScroll } from "@shared/hooks/useLockScroll/useLockScroll";
 import { useKeyEscape } from "@shared/hooks/useKeyEscape/useKeyEscape";
 

@@ -3,7 +3,7 @@ import type { AppState } from "@app/store/store.tsx";
 
 export const selectTodos = (state: AppState) => state.todos.todos;
 export const selectFilter = (state: AppState) => state.todos.filter;
-export const selectSearch = (state: AppState) => state.todos.search;
+export const selectSearchQuery = (state: AppState) => state.todos.searchQuery;
 
 export const selectFilteredTodos = createSelector(
   [selectTodos, selectFilter],
@@ -17,6 +17,23 @@ export const selectFilteredTodos = createSelector(
 export const selectSortedTodos = createSelector(
   [selectFilteredTodos],
   (todos) => [...todos].sort((a, b) => +!!b.pinned - +!!a.pinned),
+);
+
+export const selectSearchTodos = createSelector(
+  [selectSortedTodos, selectSearchQuery],
+  (todos, search) => {
+    const query = search.trim().toLocaleLowerCase();
+    if (!query) return todos;
+
+    const starts = todos.filter((todo) =>
+      todo.title.toLocaleLowerCase().startsWith(query),
+    );
+    if (starts.length) return starts;
+
+    return todos.filter((todo) =>
+      todo.title.toLocaleLowerCase().includes(query),
+    );
+  },
 );
 
 export const selectTodoLimitExceeded = createSelector(

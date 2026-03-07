@@ -13,7 +13,7 @@ const initialState: TodosState = {
   loading: false,
   error: "",
   filter: "active",
-  search: "",
+  searchQuery: "",
 };
 
 const MAX_PINNED = 3;
@@ -73,6 +73,10 @@ const TodosSlice = createSlice({
       todo.pinned = false;
     },
 
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload.trim().toLowerCase();
+    },
+
     pinTodo(state, action: PayloadAction<{ id: string }>) {
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (!todo) return;
@@ -93,6 +97,7 @@ export const todosReducer = TodosSlice.reducer;
 export const {
   deleteTodo,
   clearCompleted,
+  setSearchQuery,
   createTodo,
   updateTodo,
   toggleTodo,

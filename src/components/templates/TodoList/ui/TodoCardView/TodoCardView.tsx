@@ -1,4 +1,4 @@
-import { TodoItemSmart } from "../TodoItemSmart/TodoItemSmart";
+import { TodoItemSmart } from "../TodoItemSmart";
 
 import s from "./TodoCardView.module.scss";
 

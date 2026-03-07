@@ -1,4 +1,4 @@
-import { TodoItemSmart } from "../TodoItemSmart/TodoItemSmart";
+import { TodoItemSmart } from "../TodoItemSmart";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoListView.module.scss";
 

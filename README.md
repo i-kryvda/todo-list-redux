@@ -1,4 +1,4 @@
-# todo-list-redux
+# Advanced Task Manager
 
 ### description
 

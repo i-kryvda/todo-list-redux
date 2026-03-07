@@ -5,7 +5,7 @@ import { Header } from "@components/templates/Header/Header";
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 
-export function TodosPage() {
+export function TodoPage() {
   const [collapsed, setCollapsed] = useState(() => {
     const saved = localStorage.getItem("sidebar-collapsed");
     if (saved !== null) return saved === "true";

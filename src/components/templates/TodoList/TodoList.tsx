@@ -3,16 +3,13 @@ import {
   selectHasCompleted,
   selectFilter,
   selectSortedTodos,
+  selectSearchTodos,
 } from "@app/store/todos/todos-selectors";
 import { clearCompleted } from "@app/store/todos/todos-slice";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
-
-import { TodoListView } from "@components/templates/TodoList/ui/TodoListView/TodoListView";
-import { TodoCardView } from "@components/templates/TodoList/ui/TodoCardView/TodoCardView";
+import { TodoCardView, TodoListView } from "./ui";
 import { EmptyState } from "@components/atoms/EmptyState/EmptyState";
-
-import { HiOutlineViewGrid } from "react-icons/hi";
-import { HiOutlineViewList } from "react-icons/hi";
+import { HiOutlineViewGrid, HiOutlineViewList } from "react-icons/hi";
 import { AiOutlineClear } from "react-icons/ai";
 import s from "./TodoList.module.scss";
 
@@ -20,7 +17,7 @@ type View = "list" | "card";
 
 export function TodoList() {
   const [view, setView] = useState<View>("list");
-  const todos = useAppSelector(selectSortedTodos);
+  const todos = useAppSelector(selectSearchTodos);
   const hasCompleted = useAppSelector(selectHasCompleted);
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
