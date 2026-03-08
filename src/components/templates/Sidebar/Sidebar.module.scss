@@ -4,13 +4,13 @@
 }
 
 .sidebarNav {
-  border: 1px solid var(--border-color);
-  background-color: var(--sidebar-color);
+  // border: 1px solid var(--border-color);
+  // background-color: var(--sidebar-color);
 }
 
 .theme {
-  border: 1px solid var(--border-color);
-  background-color: var(--sidebar-color);
+  border-top: 1px solid var(--border-color);
+  // background-color: var(--sidebar-color);
 }
 
 .sidebar {
@@ -18,10 +18,12 @@
   position: fixed;
   display: flex;
   flex-direction: column;
+
   gap: 3rem;
   width: var(--sidebar-expanded);
   min-height: 100%;
-
+  border-right: 1px solid var(--border-color);
+  background-color: var(--sidebar-color);
   transition: width 0.3s ease;
 
   &Collapsed {
