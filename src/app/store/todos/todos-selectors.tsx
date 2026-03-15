@@ -19,22 +19,30 @@ export const selectSortedTodos = createSelector(
   (todos) => [...todos].sort((a, b) => +!!b.pinned - +!!a.pinned),
 );
 
+// need to rename selectFilteredTodos
 export const selectSearchTodos = createSelector(
   [selectSortedTodos, selectSearchQuery],
-  (todos, search) => {
-    const query = search.trim().toLocaleLowerCase();
-    if (!query) return todos;
-
-    const starts = todos.filter((todo) =>
-      todo.title.toLocaleLowerCase().startsWith(query),
-    );
-    if (starts.length) return starts;
-
+  (todos, query) => {
+    if (!query.trim()) return todos;
     return todos.filter((todo) =>
-      todo.title.toLocaleLowerCase().includes(query),
+      todo.title.toLowerCase().startsWith(query.toLowerCase()),
     );
   },
 );
+// need to parametrized selector
+export const selectSuggestions = (query: string) =>
+  createSelector([selectSortedTodos], (todos) => {
+    const q = query.trim().toLowerCase();
+
+    if (!q) return [];
+    const starts = todos.filter((todo) =>
+      todo.title.toLowerCase().startsWith(q),
+    );
+    if (starts.length) return starts.slice(0, 5);
+    return todos
+      .filter((todo) => todo.title.toLowerCase().includes(q))
+      .slice(0, 5);
+  });
 
 export const selectTodoLimitExceeded = createSelector(
   [selectSortedTodos],
