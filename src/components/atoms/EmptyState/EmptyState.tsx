@@ -1,4 +1,4 @@
-import { TiLightbulb } from "react-icons/ti";
+import { RiCheckboxBlankLine } from "react-icons/ri";
 import clsx from "clsx";
 import s from "./EmptyState.module.scss";
 
@@ -6,13 +6,13 @@ export function EmptyState() {
   return (
     <div className={s.emptyState}>
       <div className={s.emptyStateHeader}>
-        <TiLightbulb size={20} aria-hidden="true" />
-        <p className={s.emptyStateText}>The first step is always small.</p>
+        <RiCheckboxBlankLine size={20} aria-hidden="true" />
+        <p>Empty</p>
       </div>
-
-      <div className={clsx(s.emptyStateBar, s.emptyStateBarLong)} />
-      <div className={clsx(s.emptyStateBar, s.emptyStateBarLong)} />
-      <div className={clsx(s.emptyStateBar, s.emptyStateBarShort)} />
+      <div className={s.emptyStateBody}>
+        <div className={clsx(s.emptyStateBar, s.emptyStateBarLong)} />
+        <div className={clsx(s.emptyStateBar, s.emptyStateBarShort)} />
+      </div>
     </div>
   );
 }

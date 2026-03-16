@@ -74,7 +74,8 @@ const TodosSlice = createSlice({
     },
 
     setSearchQuery(state, action: PayloadAction<string>) {
-      state.searchQuery = action.payload.trim().toLowerCase();
+      const normalized = action.payload.trim().toLowerCase();
+      state.searchQuery = normalized;
     },
 
     pinTodo(state, action: PayloadAction<{ id: string }>) {

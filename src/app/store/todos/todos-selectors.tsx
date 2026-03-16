@@ -23,7 +23,12 @@ export const selectSortedTodos = createSelector(
 export const selectSearchTodos = createSelector(
   [selectSortedTodos, selectSearchQuery],
   (todos, query) => {
-    if (!query.trim()) return todos;
+    const q = query.trim().toLowerCase();
+    if (!q) return todos;
+
+    const exact = todos.filter((todo) => todo.title.toLowerCase() === q);
+    if (exact.length) return exact;
+
     return todos.filter((todo) =>
       todo.title.toLowerCase().startsWith(query.toLowerCase()),
     );
@@ -35,13 +40,14 @@ export const selectSuggestions = (query: string) =>
     const q = query.trim().toLowerCase();
 
     if (!q) return [];
+
     const starts = todos.filter((todo) =>
       todo.title.toLowerCase().startsWith(q),
     );
-    if (starts.length) return starts.slice(0, 5);
+    if (starts.length) return starts.slice(0, 10);
     return todos
       .filter((todo) => todo.title.toLowerCase().includes(q))
-      .slice(0, 5);
+      .slice(0, 10);
   });
 
 export const selectTodoLimitExceeded = createSelector(

@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   selectHasCompleted,
   selectFilter,
-  selectSortedTodos,
   selectSearchTodos,
 } from "@app/store/todos/todos-selectors";
 import { clearCompleted } from "@app/store/todos/todos-slice";
@@ -12,6 +11,8 @@ import { EmptyState } from "@components/atoms/EmptyState/EmptyState";
 import { HiOutlineViewGrid, HiOutlineViewList } from "react-icons/hi";
 import { AiOutlineClear } from "react-icons/ai";
 import s from "./TodoList.module.scss";
+import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
+import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 
 type View = "list" | "card";
 
@@ -21,6 +22,19 @@ export function TodoList() {
   const hasCompleted = useAppSelector(selectHasCompleted);
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
+  const { openModal, closeModal } = useModalStack();
+
+  const handleDelete = () => {
+    openModal((modalId) => (
+      <ConfirmDeleteModal
+        onConfirm={() => dispatch(clearCompleted())}
+        onClose={() => closeModal(modalId)}
+      />
+    ));
+  };
+
+  // title:   Delete todos
+  // message: Are you sure you want to delete these todos?
 
   return (
     <section className={s.todo} aria-labelledby="todo-section__title">
@@ -47,10 +61,10 @@ export function TodoList() {
             style={{
               border: "none",
             }}
-            // style={{ padding: 15, border: "1px solid white" }}
-            onClick={() => dispatch(clearCompleted())}
+            // onClick={() => dispatch(clearCompleted())}
+            onClick={() => handleDelete()}
           >
-            <span>clear {filter}</span>
+            <span>clear all {filter}</span>
             <AiOutlineClear style={{ transform: "rotate(25deg)" }} />
           </button>
         )}

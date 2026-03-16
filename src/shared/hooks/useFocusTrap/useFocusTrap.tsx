@@ -17,7 +17,7 @@ const getFocusableElements = (container: HTMLElement): HTMLElement[] => {
 };
 
 export function useFocusTrap(
-  ref: React.RefObject<HTMLDivElement | null>,
+  ref: React.RefObject<HTMLElement | null>,
   isActive: boolean,
 ) {
   const prevFocusedElement = useRef<HTMLElement | null>(null);

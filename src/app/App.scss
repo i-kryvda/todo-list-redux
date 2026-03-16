@@ -42,6 +42,8 @@ html[data-theme="light"] {
 
 html {
   font-size: 10px;
+  // scrollbar-gutter: stable;
+  // overflow-y: scroll;
 }
 
 body {
@@ -49,6 +51,7 @@ body {
   font-size: 1.6rem;
   background-color: var(--bg-main);
   color: var(--text-primary);
+  overflow-y: scroll;
 }
 
 #root {

@@ -16,27 +16,31 @@ export function ConfirmDeleteModal({
 
   return (
     <div className={style.confirmDeleteModal}>
-      <h2 className={style.confirmDeleteModalTitle}>Are you sure?</h2>
+      <h2 className={style.confirmDeleteModalTitle}>Delete todo</h2>
+
+      <p className={style.confirmDeleteModalQuestion}>
+        Are you sure you want to delete this todo?
+      </p>
 
       <div className={style.confirmDeleteModalButtons}>
         <button
           autoFocus
           type="button"
-          onClick={handleConfirm}
+          onClick={() => onClose()}
           className={
             style.confirmDeleteModalButton +
             " " +
             style.confirmDeleteModalButtonConfirm
           }
         >
-          Yes
+          Cansel
         </button>
         <button
           type="button"
-          onClick={() => onClose()}
+          onClick={handleConfirm}
           className={style.confirmDeleteModalButton}
         >
-          No
+          Delete
         </button>
       </div>
     </div>
