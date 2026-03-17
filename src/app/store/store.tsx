@@ -1,16 +1,27 @@
-import {configureStore} from "@reduxjs/toolkit";
-import {counterReducer} from "@app/store/counter/counter.slice";
-import {todosReducer} from "@app/store/todos/todos-slice";
-import {useDispatch, useSelector} from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { persistedReducer } from "./persist-config";
+import { persistStore } from "redux-persist";
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
-const store = configureStore({
-    reducer: {
-        counter: counterReducer,
-        todos: todosReducer,
-    },
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-export default store;
+export const persistor = persistStore(store);
 
 export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -18,3 +29,4 @@ export type AppDispatch = typeof store.dispatch;
 // hooks
 export const useAppSelector = useSelector.withTypes<AppState>();
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppStore = useStore.withTypes<typeof store>();

@@ -1,6 +1,6 @@
 import { TodoPage } from "@components/pages/todo";
 import "./App.scss";
 
-export default function App() {
+export function App() {
   return <TodoPage />;
 }

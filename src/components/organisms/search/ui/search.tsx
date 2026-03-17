@@ -1,26 +1,26 @@
 import { useId, useRef, useState } from "react";
-import { useInput } from "@shared/hooks/useInput";
-
-// import { SearchInput } from "./search-input";
+// import { useInput } from "@shared/hooks/useInput";
 import { FiSearch, FiX } from "react-icons/fi";
 import { RiCheckboxLine, RiStarLine } from "react-icons/ri";
 import { RiCheckboxBlankLine } from "react-icons/ri";
-import s from "./search.module.scss";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { selectSuggestions } from "@app/store/todos/todos-selectors";
 import { setSearchQuery } from "@app/store/todos/todos-slice";
+import { selectSearchQuery } from "@app/store/todos/todos-selectors";
 import { useDebounce } from "@shared/hooks/useDebounce";
 import { useClickOutside } from "../model/hooks/useClickOutside";
 import { useKeyboardNavigation } from "../model/hooks/useKeyboardNavigation";
 import type { TodoType } from "@app/store/todos/todos-types";
+import s from "./search.module.scss";
 
 export function Search() {
-  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const search = useInput("");
-
-  const debounced = useDebounce(search.value, 200);
-  const suggestions = useAppSelector(selectSuggestions(debounced)); //or search.value
+  const query = useAppSelector(selectSearchQuery);
+  const [inputValue, setInputValue] = useState(query);
+  // const search = useInput("");
+  const debouncedQuery = useDebounce(inputValue, 200);
+  const dispatch = useAppDispatch();
+  const suggestions = useAppSelector(selectSuggestions(debouncedQuery)); //or search.value
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const containerRef = useRef<HTMLFormElement | null>(null);
@@ -35,7 +35,7 @@ export function Search() {
     option: (i: number) => `${id}-option-${i}`,
   };
 
-  const setSuggestionsOpen = () => {
+  const closeSuggestions = () => {
     setIsOpen(false);
     setHighlightedIndex(-1);
   };
@@ -43,29 +43,42 @@ export function Search() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const hasValue = value.trim().length > 0;
-    search.onChange(e);
+    // search.onChange(e);
+    setInputValue(value);
     setIsOpen(hasValue);
     setHighlightedIndex(-1);
     if (!hasValue) dispatch(setSearchQuery(""));
   };
 
   const handleSelect = (title: string) => {
-    search.setValue(title);
+    // search.setValue(title);
+    setInputValue(title);
     dispatch(setSearchQuery(title));
-    setSuggestionsOpen();
+    closeSuggestions();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(setSearchQuery(search.value));
+    dispatch(setSearchQuery(inputValue));
     setIsOpen(false);
   };
 
   const clearSearch = () => {
-    search.onReset();
+    setInputValue("");
     dispatch(setSearchQuery(""));
     setIsOpen(false);
   };
+
+  // const clearSearch = () => {
+  //   console.log("before", search.value);
+
+  //   search.onReset();
+  //   dispatch(setSearchQuery(""));
+
+  //   setTimeout(() => {
+  //     console.log("after", search.value);
+  //   }, 0);
+  // };
 
   const onHighlight = (i: number) => setHighlightedIndex(i);
 
@@ -74,14 +87,18 @@ export function Search() {
     suggestionsRef,
     highlightedIndex,
     onSelect: handleSelect,
-    onEscape: setSuggestionsOpen,
+    onEscape: closeSuggestions,
     onHighlight,
   });
 
   const focusInput = () => inputRef.current?.focus();
-  const open = isOpen && suggestions.length > 0;
 
-  useClickOutside(containerRef, setSuggestionsOpen);
+  const hasQuery = debouncedQuery.trim().length > 0;
+  const hasSuggestions = suggestions.length > 0;
+  const suggestionsOpen = isOpen && hasQuery;
+  const showNotFound = hasQuery && !hasSuggestions;
+
+  useClickOutside(containerRef, closeSuggestions);
 
   const getItemIcon = ({ completed, pinned }: TodoType) => {
     if (completed) return <RiCheckboxLine size={15} />;
@@ -110,26 +127,28 @@ export function Search() {
           disabled={false}
           className={s.input}
           placeholder="Search todo..."
-          value={search.value}
+          value={inputValue}
           onChange={handleChange}
           onKeyDown={onKeyDown}
         />
 
-        {search.value && (
+        {inputValue.length > 0 && (
           <button type="button" className={s.clear} onClick={clearSearch}>
             <FiX size={18} />
           </button>
         )}
       </div>
 
-      {/* {suggestions.length === 0 && <p>Not found</p>} */}
-
       <ul
-        className={`${s.suggestions} ${open ? s.open : ""}`}
+        className={`${s.suggestions} ${suggestionsOpen ? s.open : ""}`}
         id={ids.list}
         ref={suggestionsRef}
-        // tabIndex={-1}
       >
+        {showNotFound && (
+          <li className={s.suggestion} onClick={clearSearch}>
+            Not found
+          </li>
+        )}
         {suggestions.map((item, index) => (
           <li
             key={item.id}
