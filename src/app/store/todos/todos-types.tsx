@@ -10,8 +10,6 @@ export type FilterType = "all" | "active" | "completed";
 
 export type TodosState = {
   todos: TodoType[];
-  loading: boolean;
-  error: string | null;
   filter: FilterType;
   searchQuery: string;
 };

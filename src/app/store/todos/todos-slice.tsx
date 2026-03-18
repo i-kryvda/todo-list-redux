@@ -10,8 +10,6 @@ import type {
 
 const initialState: TodosState = {
   todos: [],
-  loading: false,
-  error: "",
   filter: "active",
   searchQuery: "",
 };
