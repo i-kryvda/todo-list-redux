@@ -37,4 +37,44 @@
       opacity: 0.5;
     }
   }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  &Actions {
+    padding: 3rem 0rem;
+    text-align: center;
+  }
+
+  &LoadMore {
+    cursor: pointer;
+
+    // width: 100%;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+    // background-color: var(--primary-color);
+    padding: 0.5rem 3rem;
+    font-size: 15px;
+    border-radius: 1rem;
+    // font-weight: 600;
+    text-transform: uppercase;
+    transform: translateY(0px) scale(0.95);
+    transition: transform 0.33s ease;
+
+    &:hover {
+      transform: translateY(0px) scale(1);
+
+      // color: var(--primary-color);
+      // border-bottom: 1px solid var(--primary-color);
+    }
+  }
 }

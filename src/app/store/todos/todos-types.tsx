@@ -6,7 +6,7 @@ export type TodoType = {
   pinned?: boolean;
 };
 
-export type FilterType = "all" | "active" | "completed";
+export type FilterType = "active" | "completed";
 
 export type TodosState = {
   todos: TodoType[];

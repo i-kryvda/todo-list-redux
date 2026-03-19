@@ -30,7 +30,7 @@ export const selectSearchTodos = createSelector(
     if (exact.length) return exact;
 
     return todos.filter((todo) =>
-      todo.title.toLowerCase().startsWith(query.toLowerCase()),
+      todo.title.toLowerCase().startsWith(q.toLowerCase()),
     );
   },
 );

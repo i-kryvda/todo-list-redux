@@ -43,7 +43,6 @@ export function Search() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const hasValue = value.trim().length > 0;
-    // search.onChange(e);
     setInputValue(value);
     setIsOpen(hasValue);
     setHighlightedIndex(-1);
@@ -68,17 +67,6 @@ export function Search() {
     dispatch(setSearchQuery(""));
     setIsOpen(false);
   };
-
-  // const clearSearch = () => {
-  //   console.log("before", search.value);
-
-  //   search.onReset();
-  //   dispatch(setSearchQuery(""));
-
-  //   setTimeout(() => {
-  //     console.log("after", search.value);
-  //   }, 0);
-  // };
 
   const onHighlight = (i: number) => setHighlightedIndex(i);
 
@@ -129,6 +117,7 @@ export function Search() {
           placeholder="Search todo..."
           value={inputValue}
           onChange={handleChange}
+          onFocus={() => setIsOpen(true)}
           onKeyDown={onKeyDown}
         />
 

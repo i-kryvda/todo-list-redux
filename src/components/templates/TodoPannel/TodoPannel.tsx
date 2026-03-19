@@ -9,9 +9,7 @@ export function TodoPannel() {
   const [isOpen, setIsOpen] = useState(false);
   const filter = useAppSelector(selectFilter);
 
-  if (filter === "completed") {
-    return null; // не показуємо панель, якщо фільтр "completed"
-  }
+  if (filter === "completed") return null;
 
   return (
     <section

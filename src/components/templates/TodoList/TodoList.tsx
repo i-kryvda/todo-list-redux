@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   selectHasCompleted,
   selectFilter,
@@ -6,23 +6,38 @@ import {
 } from "@app/store/todos/todos-selectors";
 import { clearCompleted } from "@app/store/todos/todos-slice";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
-import { TodoCardView, TodoListView } from "./ui";
 import { EmptyState } from "@components/atoms/EmptyState/EmptyState";
 import { HiOutlineViewGrid, HiOutlineViewList } from "react-icons/hi";
 import { AiOutlineClear } from "react-icons/ai";
 import s from "./TodoList.module.scss";
 import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
+import { TodoItemSmart } from "./ui/TodoItemSmart";
 
 type View = "list" | "card";
+// import { FaArrowAltCircleDown } from "react-icons/fa";
+import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+const LOAD_MORE = 4;
+
+// function useLoadMoreWithScroll() {}
 
 export function TodoList() {
   const [view, setView] = useState<View>("list");
+  const [visibleCount, setVisibleCount] = useState({
+    active: LOAD_MORE,
+    completed: LOAD_MORE,
+  });
   const todos = useAppSelector(selectSearchTodos);
   const hasCompleted = useAppSelector(selectHasCompleted);
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
   const { openModal, closeModal } = useModalStack();
+  const visibleTodos = todos.slice(0, visibleCount[filter]);
+
+  const newItemsRef = useRef<HTMLLIElement | null>(null);
+  const prevCountRef = useRef(visibleCount[filter]);
+
+  const prevFilterRef = useRef(filter);
 
   const handleDelete = () => {
     openModal((modalId) => (
@@ -35,6 +50,54 @@ export function TodoList() {
 
   // title:   Delete todos
   // message: Are you sure you want to delete these todos?
+
+  const handleLoadMore = () => {
+    prevCountRef.current = visibleCount[filter];
+
+    setVisibleCount((prev) => ({
+      ...prev,
+      [filter]: prev[filter] + LOAD_MORE,
+    }));
+  };
+
+  // useEffect(() => {
+  //   if (visibleCount[filter] > prevCountRef.current) {
+  //     newItemsRef.current?.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //     });
+  //   }
+  //   prevCountRef.current = visibleCount[filter];
+  // }, [visibleCount, filter]);
+
+  // useEffect(() => {
+  //   const id = setTimeout(() => {
+  //     window.scrollTo({ top: 0, behavior: "smooth" });
+  //   }, 0);
+
+  //   return () => clearTimeout(id);
+  // }, [filter]);
+
+  useEffect(() => {
+    // Зміна фільтра — скрол на початок
+    if (filter !== prevFilterRef.current) {
+      prevFilterRef.current = filter;
+      prevCountRef.current = visibleCount[filter];
+      const id = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 0);
+      return () => clearTimeout(id);
+    }
+
+    // Load More — скрол до нових елементів
+    if (visibleCount[filter] > prevCountRef.current) {
+      newItemsRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    prevCountRef.current = visibleCount[filter];
+  }, [visibleCount, filter]);
 
   return (
     <section className={s.todo} aria-labelledby="todo-section__title">
@@ -58,11 +121,8 @@ export function TodoList() {
             className={s.todoToggleViewButton}
             disabled={!hasCompleted}
             aria-label="Clear completed todos"
-            style={{
-              border: "none",
-            }}
-            // onClick={() => dispatch(clearCompleted())}
-            onClick={() => handleDelete()}
+            style={{ border: "none" }}
+            onClick={handleDelete}
           >
             <span>clear all {filter}</span>
             <AiOutlineClear style={{ transform: "rotate(25deg)" }} />
@@ -74,10 +134,30 @@ export function TodoList() {
         {todos.length === 0 ? (
           <EmptyState />
         ) : (
-          <>
-            {view === "list" && <TodoListView todos={todos} />}
-            {view === "card" && <TodoCardView todos={todos} />}
-          </>
+          <ul className={view === "list" ? s.list : s.card}>
+            {visibleTodos.map((item, index) => {
+              const isFirstNew = index === prevCountRef.current;
+
+              return (
+                <li
+                  key={item.id}
+                  className={s.listItem}
+                  ref={isFirstNew ? newItemsRef : null}
+                >
+                  <TodoItemSmart todo={item} />
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        {visibleCount[filter] < todos.length && (
+          <div className={s.todoActions}>
+            <button onClick={handleLoadMore} className={s.todoLoadMore}>
+              {/* Load more */}
+              <MdKeyboardDoubleArrowDown size={30}></MdKeyboardDoubleArrowDown>
+            </button>
+          </div>
         )}
       </div>
     </section>
