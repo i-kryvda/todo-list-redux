@@ -1,6 +1,11 @@
 .item {
   border: 1px solid var(--border-color);
+  height: 100%;
+  width: 100%;
   background-color: var(--sidebar-color);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 
   &Body {
     padding: 1rem;
@@ -82,29 +87,37 @@
 
   &Button {
     cursor: pointer;
-
-    width: 15px;
-    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
 
     & > span {
       font-size: 0;
     }
 
     &Edit {
-      background-color: var(--color-yellow);
+      // background-color: var(--color-yellow);
+      // color: var(--color-yellow);
+      border: 1px solid var(--color-yellow);
+
+      &:hover {
+        color: var(--color-yellow);
+      }
     }
 
     &Delete {
       background-color: var(--color-red);
+
+      // border: 1px solid var(--color-red);
     }
   }
 }
 
-.itemPinnedCount {
-  // left: 3rem;
-  // position: absolute;
-  color: var(--text-secondory);
-  // border: 1px solid red;
+.completing {
+  opacity: 0;
+  transform: translateX(200px);
 }
 
 .itemLabel {
@@ -160,6 +173,11 @@
 }
 
 .nativeCheckbox:checked + .customCheckbox::after {
+  opacity: 1;
+  transform: scale(2.5);
+}
+
+.nativeCheckbox:hover + .customCheckbox::after {
   opacity: 1;
   transform: scale(2.5);
 }

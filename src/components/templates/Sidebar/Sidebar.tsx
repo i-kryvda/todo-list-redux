@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { BsLayoutSidebar } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 // import { IoSearch } from "react-icons/io5";
@@ -19,16 +19,22 @@ import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
 // import { IoSearch } from "react-icons/io5";
 // import { TbTransitionRightFilled } from "react-icons/tb";
 import { GiAtomicSlashes } from "react-icons/gi";
-import { FaLongArrowAltLeft } from "react-icons/fa";
+// import { FaLongArrowAltLeft } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 
 type SidebarProps = {
   collapsed: boolean;
+  mobileOpen: boolean;
+  toggleMenuOpen: () => void;
   toggleSidebar: () => void;
 };
 
-export function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
+export function Sidebar({
+  collapsed,
+  toggleSidebar,
+  mobileOpen,
+}: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   // const toggleSidebar = () => setCollapsed((prev) => !prev);
   const filter = useAppSelector(selectFilter);
@@ -44,10 +50,10 @@ export function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
 
   return (
     <>
-      {!collapsed && <div className={s.overlay} onClick={toggleSidebar} />}
+      {/* {!collapsed && <div className={s.overlay} onClick={toggleSidebar} />} */}
 
       <aside
-        className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}
+        className={`${s.sidebar} ${collapsed ? s.sidebarCollapsed : ""} ${mobileOpen ? s.sidebarOpen : ""}`}
       >
         <nav className={s.sidebarNav}>
           <ul className={s.sidebarList}>

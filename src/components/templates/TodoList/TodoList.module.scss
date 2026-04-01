@@ -9,15 +9,26 @@
     margin-bottom: 3rem;
   }
 
-  &ToggleViewButton {
+  &Button {
     font-size: 1.6rem;
-
     display: flex;
     text-transform: uppercase;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     padding: 0.5rem 0;
+
+    svg {
+      color: var(--primary-color);
+      transition: color 0.33s ease;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &ToggleViewButton {
     border-bottom: 1px solid transparent;
     transition: border-bottom 0.33s ease;
 
@@ -25,29 +36,9 @@
       border-bottom: 1px solid var(--primary-color);
     }
 
-    svg {
-      color: var(--primary-color);
-      transition: color 0.33s ease;
+    @media (max-width: 768px) {
+      display: none;
     }
-
-    &:hover svg {
-      color: var(--primary-color-hover);
-    }
-    &:disabled {
-      opacity: 0.5;
-    }
-  }
-
-  .list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .card {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
   }
 
   &Actions {
@@ -67,14 +58,46 @@
     border-radius: 1rem;
     // font-weight: 600;
     text-transform: uppercase;
-    transform: translateY(0px) scale(0.95);
-    transition: transform 0.33s ease;
+    // transform: translateY(0px) scale(0.95);
+    // transition: transform 0.33s ease;
 
     &:hover {
-      transform: translateY(0px) scale(1);
+      // transform: translateY(0px) scale(1);
 
       // color: var(--primary-color);
       // border-bottom: 1px solid var(--primary-color);
     }
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+
+  > li:last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+
+    > li:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
   }
 }

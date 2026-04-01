@@ -15,9 +15,7 @@ import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { TodoItemSmart } from "./ui/TodoItemSmart";
 
 type View = "list" | "card";
-// import { FaArrowAltCircleDown } from "react-icons/fa";
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
-const LOAD_MORE = 4;
+const LOAD_MORE = 10;
 
 // function useLoadMoreWithScroll() {}
 
@@ -60,24 +58,6 @@ export function TodoList() {
     }));
   };
 
-  // useEffect(() => {
-  //   if (visibleCount[filter] > prevCountRef.current) {
-  //     newItemsRef.current?.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "start",
-  //     });
-  //   }
-  //   prevCountRef.current = visibleCount[filter];
-  // }, [visibleCount, filter]);
-
-  // useEffect(() => {
-  //   const id = setTimeout(() => {
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   }, 0);
-
-  //   return () => clearTimeout(id);
-  // }, [filter]);
-
   useEffect(() => {
     // Зміна фільтра — скрол на початок
     if (filter !== prevFilterRef.current) {
@@ -106,9 +86,9 @@ export function TodoList() {
       <div className={s.todoHeader}>
         <button
           type="button"
-          className={s.todoToggleViewButton}
+          className={`${s.todoButton} ${view === "list" ? s.active : ""} ${s.todoToggleViewButton}`}
           aria-label="Toggle todo view"
-          disabled={todos.length === 0}
+          disabled={todos.length <= 1}
           onClick={() => setView((prev) => (prev === "list" ? "card" : "list"))}
         >
           <span>{view === "list" ? "Card view" : "List view"}</span>
@@ -118,13 +98,14 @@ export function TodoList() {
         {filter === "completed" && (
           <button
             type="button"
-            className={s.todoToggleViewButton}
+            className={s.todoButton}
+            // className={s.todoToggleViewButton}
             disabled={!hasCompleted}
             aria-label="Clear completed todos"
             style={{ border: "none" }}
             onClick={handleDelete}
           >
-            <span>clear all {filter}</span>
+            <span>clear up</span>
             <AiOutlineClear style={{ transform: "rotate(25deg)" }} />
           </button>
         )}
@@ -154,8 +135,7 @@ export function TodoList() {
         {visibleCount[filter] < todos.length && (
           <div className={s.todoActions}>
             <button onClick={handleLoadMore} className={s.todoLoadMore}>
-              {/* Load more */}
-              <MdKeyboardDoubleArrowDown size={30}></MdKeyboardDoubleArrowDown>
+              Load more
             </button>
           </div>
         )}

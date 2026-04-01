@@ -1,21 +1,17 @@
-:root {
-  --sidebar-collapsed: 90px;
-  --sidebar-expanded: 260px;
-}
-
 .sidebarNav {
   // border: 1px solid var(--border-color);
   // background-color: var(--sidebar-color);
 }
 
 .theme {
-  border-top: 1px solid var(--border-color);
+  // border-top: 1px solid var(--border-color);
   // background-color: var(--sidebar-color);
 }
 
 .sidebar {
   position: relative;
   position: fixed;
+  z-index: 999;
   display: flex;
   flex-direction: column;
 
@@ -25,6 +21,16 @@
   border-right: 1px solid var(--border-color);
   background-color: var(--sidebar-color);
   transition: width 0.3s ease;
+
+  @media (max-width: 576px) {
+    width: 100%;
+    transform: translateX(-100%);
+    transition: all 0.33s ease;
+
+    &Open {
+      transform: translateX(0px);
+    }
+  }
 
   &Collapsed {
     width: var(--sidebar-collapsed);
@@ -40,21 +46,6 @@
   &Collapsed &Toggle svg {
     width: 100%;
   }
-
-  // &Toggle {
-  //   cursor: pointer;
-  //   // display: flex;
-  //   // align-items: center;
-  //   // justify-content: space-between;
-  //   position: absolute;
-  //   top: 25px;
-  //   right: -10px;
-  //   // font-size: 24px;
-  //   // text-transform: uppercase;
-  //   color: var(--primary-color);
-  //   // padding: 1rem;
-  //   // transition: background-color 0.2s ease;
-  // }
 
   &ToggleText,
   &Text {
@@ -105,9 +96,6 @@
   &Icon {
     width: 20px;
     height: 20px;
-    // padding: 1rem;
-    // width: 100%;
-    // height: 100%;
     font-size: 20px;
     flex-shrink: 0;
   }
@@ -118,7 +106,6 @@
   align-items: center;
   justify-content: flex-end;
   padding: 2rem;
-  // border: 1px solid red;
 
   &Switch {
     cursor: pointer;

@@ -40,6 +40,13 @@ html[data-theme="light"] {
   --sidebar-expanded: 260px;
 }
 
+@media (max-width: 768px) {
+  :root {
+    --sidebar-collapsed: 90px;
+    --sidebar-expanded: 220px;
+  }
+}
+
 html {
   font-size: 10px;
   // scrollbar-gutter: stable;
@@ -65,18 +72,25 @@ body {
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-
 .app {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
 
-  margin-left: 260px;
+  margin-left: var(--sidebar-expanded);
   transition: margin-left 0.3s ease;
+
+  @media (max-width: 576px) {
+    margin-left: 0;
+  }
 }
 
 .appCollapsed {
-  margin-left: 90px;
+  margin-left: var(--sidebar-collapsed);
+
+  @media (max-width: 576px) {
+    margin-left: 0;
+  }
 }
 
 .main {
@@ -93,7 +107,7 @@ body {
 
 .header__container,
 .footer__container {
-  max-width: 183rem;
+  max-width: 170rem;
 }
 
 .visually-hidden {

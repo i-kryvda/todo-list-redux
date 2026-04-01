@@ -5,6 +5,13 @@
 
 .box {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 5rem;
+}
+
+.language {
+  border: 1px solid white;
+  padding: 1rem;
+  cursor: pointer;
 }
