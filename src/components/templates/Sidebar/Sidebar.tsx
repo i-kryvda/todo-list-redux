@@ -1,27 +1,21 @@
-// import { useEffect, useState } from "react";
-import { BsLayoutSidebar } from "react-icons/bs";
-import { FaPlus } from "react-icons/fa";
-// import { IoSearch } from "react-icons/io5";
-import { MdOutlineEventNote } from "react-icons/md";
-
-// import { MdDoneOutline } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
-
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { setFilter } from "@app/store/todos/todos-slice";
 import { selectFilter } from "@app/store/todos/todos-selectors";
+import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
+import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
+
+import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 
 import s from "./Sidebar.module.scss";
-import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
-// import { CreateModal } from "@components/molecules/CreateModal/CreateModal";
-import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
-// import { IoSearch } from "react-icons/io5";
-// import { TbTransitionRightFilled } from "react-icons/tb";
-import { GiAtomicSlashes } from "react-icons/gi";
-// import { FaLongArrowAltLeft } from "react-icons/fa";
-import { IoIosArrowBack } from "react-icons/io";
-import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
+import {
+  BsLayoutSidebar,
+  FaRegTrashAlt,
+  FaPlus,
+  MdOutlineEventNote,
+  IoIosArrowBack,
+  GiAtomicSlashes,
+} from "@shared/assets/icons/react-icons";
 
 type SidebarProps = {
   collapsed: boolean;
@@ -34,34 +28,47 @@ export function Sidebar({
   collapsed,
   toggleSidebar,
   mobileOpen,
+  toggleMenuOpen,
 }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
-  // const toggleSidebar = () => setCollapsed((prev) => !prev);
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
   const { openModal, closeModal } = useModalStack();
 
   const handleCreate = () => {
     openModal((modalId) => {
-      const close = () => closeModal(modalId);
-      return <CreateTodo onSubmitSuccess={close} onClose={close} />;
+      const close = () => {
+        closeModal(modalId);
+      };
+      const closeOnSuccess = () => {
+        close();
+        dispatch(setFilter("active"));
+        toggleMenuOpen();
+      };
+
+      return <CreateTodo onSubmitSuccess={closeOnSuccess} onClose={close} />;
     });
+  };
+
+  const handleActiveClick = () => {
+    dispatch(setFilter("active"));
+    toggleMenuOpen();
+  };
+
+  const handleCompletedClick = () => {
+    dispatch(setFilter("completed"));
+    toggleMenuOpen();
   };
 
   return (
     <>
-      {/* {!collapsed && <div className={s.overlay} onClick={toggleSidebar} />} */}
+      {/* {mobileOpen && <div className={s.overlay} onClick={toggleMenuOpen} />} */}
 
       <aside
         className={`${s.sidebar} ${collapsed ? s.sidebarCollapsed : ""} ${mobileOpen ? s.sidebarOpen : ""}`}
       >
         <nav className={s.sidebarNav}>
           <ul className={s.sidebarList}>
-            {/* <li className={s.sidebarItem}>
-            <IoSearch className={s.sidebarIcon} />
-            <span className={s.sidebarText}>Search </span>
-          </li> */}
-
             <li className={s.sidebarToggleItem} onClick={toggleSidebar}>
               <span className={`${s.iconLeft} ${s.iconWrapper}`}>
                 <GiAtomicSlashes
@@ -78,7 +85,7 @@ export function Sidebar({
 
             <li
               className={`${s.sidebarItem} ${filter === "active" ? s.sidebarItemActive : ""}`}
-              onClick={() => dispatch(setFilter("active"))}
+              onClick={handleActiveClick}
             >
               <Tooltip
                 content="Show active todos"
@@ -95,7 +102,7 @@ export function Sidebar({
 
             <li
               className={`${s.sidebarItem} ${filter === "completed" ? s.sidebarItemActive : ""}`}
-              onClick={() => dispatch(setFilter("completed"))}
+              onClick={handleCompletedClick}
             >
               <Tooltip
                 content="Show completed todos"

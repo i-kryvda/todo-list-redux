@@ -1,17 +1,22 @@
 .header {
   padding: 25px 0px;
   border-bottom: 1px solid var(--border-color);
-}
 
-.box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5rem;
-}
+  &Box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5rem;
+  }
 
-.language {
-  border: 1px solid white;
-  padding: 1rem;
-  cursor: pointer;
+  &Burger {
+    border: 1px solid white;
+    padding: 1rem;
+    cursor: pointer;
+    display: none;
+
+    @media (max-width: 576px) {
+      display: block;
+    }
+  }
 }

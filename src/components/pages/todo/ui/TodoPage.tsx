@@ -17,8 +17,8 @@ export function TodoPage() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleMenuOpen = () => {
+    setIsMenuOpen((prev) => !prev);
     setCollapsed(false);
   };
 
@@ -36,12 +36,12 @@ export function TodoPage() {
       <Sidebar
         collapsed={collapsed}
         mobileOpen={isMenuOpen}
-        toggleMenuOpen={toggleMenu}
+        toggleMenuOpen={toggleMenuOpen}
         toggleSidebar={toggleSidebar}
       />
 
       <div className={`app ${collapsed ? "appCollapsed" : ""}`}>
-        <Header toggleMenuOpen={toggleMenu} />
+        <Header toggleMenuOpen={toggleMenuOpen} />
         <main className="main">
           <div className="main__container">
             <TodoPannel />
