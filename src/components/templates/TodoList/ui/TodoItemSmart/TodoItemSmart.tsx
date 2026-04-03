@@ -7,14 +7,21 @@ import { EditTodo } from "@components/organisms/EditTodo/EditTodo";
 import { TodoItem } from "@components/molecules/TodoItem/TodoItem";
 import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
 
-export function TodoItemSmart({ todo }: { todo: TodoType }) {
-  const [isEditing, setEditing] = useState(false);
+type Props = {
+  todo: TodoType;
+  isEditing: boolean;
+  onEdit: () => void;
+  onCloseEdit: () => void;
+};
+
+export function TodoItemSmart({ todo, isEditing, onEdit, onCloseEdit }: Props) {
+  // const [isEditing, setEditing] = useState(false);
   const { openModal, closeModal } = useModalStack();
   const dispatch = useAppDispatch();
 
   const confirmDelete = (id: string) => dispatch(deleteTodo({ id }));
 
-  const handleDelete = (id: string) => {
+  const handleDeleteTodo = (id: string) => {
     openModal((modalId) => (
       <ConfirmDeleteModal
         onConfirm={() => confirmDelete(id)}
@@ -25,14 +32,10 @@ export function TodoItemSmart({ todo }: { todo: TodoType }) {
 
   return (
     <>
-      {isEditing ? (
-        <EditTodo todo={todo} onClose={() => setEditing(false)} />
-      ) : (
-        <TodoItem
-          todo={todo}
-          onEdit={() => setEditing(true)}
-          onDelete={(id) => handleDelete(id)}
-        />
+      {isEditing && <EditTodo todo={todo} onClose={onCloseEdit} />}
+
+      {!isEditing && (
+        <TodoItem todo={todo} onEdit={onEdit} onDelete={handleDeleteTodo} />
       )}
     </>
   );

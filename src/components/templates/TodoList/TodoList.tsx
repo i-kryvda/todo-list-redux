@@ -25,6 +25,7 @@ export function TodoList() {
     active: LOAD_MORE,
     completed: LOAD_MORE,
   });
+  const [editingId, setEditingId] = useState<string | null>(null);
   const todos = useAppSelector(selectSearchTodos);
   const hasCompleted = useAppSelector(selectHasCompleted);
   const filter = useAppSelector(selectFilter);
@@ -37,7 +38,7 @@ export function TodoList() {
 
   const prevFilterRef = useRef(filter);
 
-  const handleDelete = () => {
+  const handleCompletedClear = () => {
     openModal((modalId) => (
       <ConfirmDeleteModal
         onConfirm={() => dispatch(clearCompleted())}
@@ -103,7 +104,7 @@ export function TodoList() {
             disabled={!hasCompleted}
             aria-label="Clear completed todos"
             style={{ border: "none" }}
-            onClick={handleDelete}
+            onClick={handleCompletedClear}
           >
             <span>clear up</span>
             <AiOutlineClear style={{ transform: "rotate(25deg)" }} />
@@ -122,10 +123,15 @@ export function TodoList() {
               return (
                 <li
                   key={item.id}
-                  className={s.listItem}
+                  className={s.item}
                   ref={isFirstNew ? newItemsRef : null}
                 >
-                  <TodoItemSmart todo={item} />
+                  <TodoItemSmart
+                    todo={item}
+                    isEditing={editingId === item.id}
+                    onEdit={() => setEditingId(item.id)}
+                    onCloseEdit={() => setEditingId(null)}
+                  />
                 </li>
               );
             })}

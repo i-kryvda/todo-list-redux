@@ -51,7 +51,7 @@ export function TodoItem({
     ? todo.description
     : "description is empty";
 
-  const trimmedDescription = truncate(description, 250);
+  const trimmedDescription = truncate(description, 200);
 
   return (
     <div className={`${s.item} ${isCompleting ? s.completing : ""}`}>

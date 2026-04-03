@@ -18,3 +18,5 @@
 
 - clear all complete tasks
 - json data ❌ (LocalStorage)
+
+- header, sidebar, TodoItem, search

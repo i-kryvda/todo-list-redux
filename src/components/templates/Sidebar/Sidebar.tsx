@@ -1,13 +1,11 @@
+import clsx from "clsx";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { setFilter } from "@app/store/todos/todos-slice";
 import { selectFilter } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
-
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
-
-import s from "./Sidebar.module.scss";
 import {
   BsLayoutSidebar,
   FaRegTrashAlt,
@@ -16,26 +14,27 @@ import {
   IoIosArrowBack,
   GiAtomicSlashes,
 } from "@shared/assets/icons/react-icons";
+import s from "./Sidebar.module.scss";
 
 type SidebarProps = {
   collapsed: boolean;
   mobileOpen: boolean;
-  toggleMenuOpen: () => void;
-  toggleSidebar: () => void;
+  onMobileClose: () => void;
+  onCollapseToggle: () => void;
 };
 
 export function Sidebar({
   collapsed,
-  toggleSidebar,
   mobileOpen,
-  toggleMenuOpen,
+  onMobileClose,
+  onCollapseToggle,
 }: SidebarProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { toggleTheme } = useTheme();
   const filter = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
   const { openModal, closeModal } = useModalStack();
 
-  const handleCreate = () => {
+  const onCreateHandler = () => {
     openModal((modalId) => {
       const close = () => {
         closeModal(modalId);
@@ -43,49 +42,61 @@ export function Sidebar({
       const closeOnSuccess = () => {
         close();
         dispatch(setFilter("active"));
-        toggleMenuOpen();
+        onMobileClose();
       };
 
       return <CreateTodo onSubmitSuccess={closeOnSuccess} onClose={close} />;
     });
   };
 
-  const handleActiveClick = () => {
+  const onClickActive = () => {
     dispatch(setFilter("active"));
-    toggleMenuOpen();
+    onMobileClose();
   };
 
-  const handleCompletedClick = () => {
+  const onClickCompleted = () => {
     dispatch(setFilter("completed"));
-    toggleMenuOpen();
+    onMobileClose();
   };
 
   return (
     <>
-      {/* {mobileOpen && <div className={s.overlay} onClick={toggleMenuOpen} />} */}
+      {mobileOpen && <div className={s.overlay} onClick={onMobileClose} />}
 
       <aside
-        className={`${s.sidebar} ${collapsed ? s.sidebarCollapsed : ""} ${mobileOpen ? s.sidebarOpen : ""}`}
+        className={clsx(
+          s.sidebar,
+          collapsed && s.sidebarCollapsed,
+          mobileOpen && s.sidebarOpen,
+        )}
       >
         <nav className={s.sidebarNav}>
           <ul className={s.sidebarList}>
-            <li className={s.sidebarToggleItem} onClick={toggleSidebar}>
-              <span className={`${s.iconLeft} ${s.iconWrapper}`}>
+            <li className={s.sidebarToggleItem} onClick={onCollapseToggle}>
+              <span
+                className={`${s.sidebarToggleLeft} ${s.sidebarToggleIconWrapper}`}
+              >
                 <GiAtomicSlashes
                   size={24}
-                  className={`${s.icon} ${s.atomic}`}
+                  className={`${s.sidebarToggleIcon} ${s.sidebarTogglePrimaryIcon}`}
                 />
-                <IoIosArrowBack size={24} className={`${s.icon} ${s.layout}`} />
+
+                <IoIosArrowBack
+                  size={24}
+                  className={`${s.sidebarToggleIcon} ${s.sidebarToggleHoverIcon}`}
+                />
               </span>
 
-              <span className={`${s.iconRigth} ${s.iconWrapper}`}>
+              <span
+                className={`${s.sidebarToggleRight} ${s.sidebarToggleIconWrapper}`}
+              >
                 <BsLayoutSidebar size={24} />
               </span>
             </li>
 
             <li
               className={`${s.sidebarItem} ${filter === "active" ? s.sidebarItemActive : ""}`}
-              onClick={handleActiveClick}
+              onClick={onClickActive}
             >
               <Tooltip
                 content="Show active todos"
@@ -102,7 +113,7 @@ export function Sidebar({
 
             <li
               className={`${s.sidebarItem} ${filter === "completed" ? s.sidebarItemActive : ""}`}
-              onClick={handleCompletedClick}
+              onClick={onClickCompleted}
             >
               <Tooltip
                 content="Show completed todos"
@@ -117,7 +128,7 @@ export function Sidebar({
               <span className={s.sidebarText}>Trash</span>
             </li>
 
-            <li className={s.sidebarItem} onClick={handleCreate}>
+            <li className={s.sidebarItem} onClick={onCreateHandler}>
               <Tooltip
                 content="Create new todo"
                 placement="right"
@@ -128,7 +139,7 @@ export function Sidebar({
                 </span>
               </Tooltip>
 
-              <span className={s.sidebarText}>Create </span>
+              <span className={s.sidebarText}>Create</span>
             </li>
           </ul>
         </nav>

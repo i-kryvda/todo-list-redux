@@ -1,1 +1,1 @@
-export { TodoPage } from "./ui/TodoPage.tsx";
+export { TodoPage } from "./TodoPage.tsx";

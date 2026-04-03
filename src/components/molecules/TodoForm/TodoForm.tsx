@@ -22,7 +22,7 @@ export function TodoForm({
   initialDescription = "",
   submitText = "Save",
 }: TodoFormProps) {
-  const ref = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     value: title,
@@ -41,7 +41,7 @@ export function TodoForm({
     hasError,
   } = useFieldError(title, validateTitle);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHendler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (titleError) return;
 
@@ -52,11 +52,11 @@ export function TodoForm({
   };
 
   useEffect(() => {
-    ref.current?.focus();
+    inputRef.current?.focus();
   }, []);
 
   return (
-    <form className={s.editor} onSubmit={handleSubmit}>
+    <form className={s.editor} onSubmit={onSubmitHendler}>
       <div className={s.titleCounter}>
         {title.length} / {MAX_TITLE_LENGTH}
       </div>
@@ -79,7 +79,7 @@ export function TodoForm({
           placeholder="Title is required"
           value={title}
           onChange={onChangeTitle}
-          ref={ref}
+          ref={inputRef}
         />
 
         <label
