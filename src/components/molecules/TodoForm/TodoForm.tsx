@@ -24,6 +24,8 @@ export function TodoForm({
 }: TodoFormProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const {
     value: title,
     onChange: onChangeTitle,
@@ -50,6 +52,18 @@ export function TodoForm({
     onResetTitle();
     onResetDescription();
   };
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    textarea.style.height = "48px";
+
+    const nextHeight = Math.min(textarea.scrollHeight, 180);
+
+    textarea.style.height = `${nextHeight}px`;
+  }, [description]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -89,13 +103,14 @@ export function TodoForm({
           Description
         </label>
 
-        <input
-          type="text"
+        <textarea
           id="todo-description"
           className={`${s.editorField} ${s.editorFieldDescription}`}
           placeholder="Optional description..."
           value={description}
           onChange={onChangeDescription}
+          ref={textareaRef}
+          rows={1}
         />
       </div>
 
