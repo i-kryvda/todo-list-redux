@@ -1,6 +1,6 @@
 import { GoStar, GoStarFill } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "@app/store/store";
-import { deleteTodo, pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
+import { pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
 import { selectTodoLimitExceeded } from "@app/store/todos/todos-selectors";
 // import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 // import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
@@ -44,7 +44,7 @@ export function TodoItem({
     setTimeout(() => {
       dispatch(toggleTodo({ id: todo.id }));
       setIsCompleting(false);
-    }, 300); // 150–300мс ідеально
+    }, 300);
   };
 
   const description = todo.description?.trim()

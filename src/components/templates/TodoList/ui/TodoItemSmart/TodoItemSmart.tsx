@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppDispatch } from "@app/store/store";
 import { deleteTodo } from "@app/store/todos/todos-slice";
 import type { TodoType } from "@app/store/todos/todos-types";
