@@ -1,11 +1,9 @@
-// import { createTodo } from "@app/store/todos/todos-slice";
-// import { useAppDispatch } from "@app/store/store";
+import { MAX_TITLE_LENGTH, validateTitle } from "./lib";
+import { useFieldError, useAutoResizeTextarea } from "./hook";
 import { useInput } from "@shared/hooks/useInput/useInput";
-// --- STYLES ---
+import { useAutoFocus } from "@shared/hooks/useAutoFocus/useAutoFocus";
+
 import s from "./TodoForm.module.scss";
-import { useEffect, useRef, useState } from "react";
-import { MAX_TITLE_LENGTH, validateTitle } from "./lib/validateTodo";
-import { useFieldError } from "./hook/useFieldError";
 
 type TodoFormProps = {
   onClose?: () => void;
@@ -22,10 +20,6 @@ export function TodoForm({
   initialDescription = "",
   submitText = "Save",
 }: TodoFormProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const {
     value: title,
     onChange: onChangeTitle,
@@ -53,25 +47,13 @@ export function TodoForm({
     onResetDescription();
   };
 
-  useEffect(() => {
-    const textarea = textareaRef.current;
+  const textareaRef = useAutoResizeTextarea(description);
 
-    if (!textarea) return;
-
-    textarea.style.height = "48px";
-
-    const nextHeight = Math.min(textarea.scrollHeight, 180);
-
-    textarea.style.height = `${nextHeight}px`;
-  }, [description]);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const inputRef = useAutoFocus<HTMLInputElement>();
 
   return (
     <form className={s.editor} onSubmit={onSubmitHendler}>
-      <div className={s.titleCounter}>
+      <div className={s.editorTitleCounter}>
         {title.length} / {MAX_TITLE_LENGTH}
       </div>
 
@@ -117,7 +99,8 @@ export function TodoForm({
       <div className={s.editorFooter}>
         <p
           id="todo-title-error"
-          className={s.error}
+          role="alert"
+          className={s.editorTitleError}
           style={{
             opacity: hasError ? 1 : 0,
             transform: hasError
@@ -131,7 +114,7 @@ export function TodoForm({
         <div className={s.editorButtons}>
           <button
             type="button"
-            className={`${s.editorBtn} ${s.editorBtnSecondary}`}
+            className={`${s.editorBtn} ${s.editorBtnCancel}`}
             onClick={onClose}
           >
             Cancel
@@ -139,7 +122,7 @@ export function TodoForm({
 
           <button
             type="submit"
-            className={`${s.editorBtn} ${s.editorBtnPrimary}`}
+            className={`${s.editorBtn} ${s.editorBtnSave}`}
             disabled={hasError || !title.trim()}
           >
             {submitText}
