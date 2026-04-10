@@ -17,8 +17,6 @@ import { TodoItemSmart } from "./ui/TodoItemSmart";
 type View = "list" | "card";
 const LOAD_MORE = 10;
 
-// function useLoadMoreWithScroll() {}
-
 export function TodoList() {
   const [view, setView] = useState<View>("list");
   const [visibleCount, setVisibleCount] = useState({
@@ -47,9 +45,6 @@ export function TodoList() {
     ));
   };
 
-  // title:   Delete todos
-  // message: Are you sure you want to delete these todos?
-
   const handleLoadMore = () => {
     prevCountRef.current = visibleCount[filter];
 
@@ -60,7 +55,6 @@ export function TodoList() {
   };
 
   useEffect(() => {
-    // Зміна фільтра — скрол на початок
     if (filter !== prevFilterRef.current) {
       prevFilterRef.current = filter;
       prevCountRef.current = visibleCount[filter];
@@ -70,7 +64,6 @@ export function TodoList() {
       return () => clearTimeout(id);
     }
 
-    // Load More — скрол до нових елементів
     if (visibleCount[filter] > prevCountRef.current) {
       newItemsRef.current?.scrollIntoView({
         behavior: "smooth",
@@ -100,7 +93,6 @@ export function TodoList() {
           <button
             type="button"
             className={s.todoButton}
-            // className={s.todoToggleViewButton}
             disabled={!hasCompleted}
             aria-label="Clear completed todos"
             style={{ border: "none" }}

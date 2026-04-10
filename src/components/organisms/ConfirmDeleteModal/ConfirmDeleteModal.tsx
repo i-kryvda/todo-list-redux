@@ -16,11 +16,13 @@ export function ConfirmDeleteModal({
 
   return (
     <div className={style.confirmDeleteModal}>
-      <h2 className={style.confirmDeleteModalTitle}>Delete todo</h2>
+      <div className={style.confirmDeleteModalBody}>
+        <h2 className={style.confirmDeleteModalTitle}>Delete todo</h2>
 
-      <p className={style.confirmDeleteModalQuestion}>
-        Are you sure you want to delete this todo?
-      </p>
+        <p className={style.confirmDeleteModalQuestion}>
+          Are you sure you want to delete this todo?
+        </p>
+      </div>
 
       <div className={style.confirmDeleteModalButtons}>
         <button

@@ -2,21 +2,30 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  // gap: 2rem;
 
   &Title {
     font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
 
   &Question {
-    margin: 8px 0px;
+    @media (max-width: 576px) {
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 479px) {
+      font-size: 1.2rem;
+    }
+  }
+
+  &Body {
+    margin-bottom: 2rem;
   }
 
   &Buttons {
-    margin-top: 3rem;
     display: flex;
     justify-content: flex-end;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   &Button {

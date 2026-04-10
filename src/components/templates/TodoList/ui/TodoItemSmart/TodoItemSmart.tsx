@@ -14,7 +14,6 @@ type Props = {
 };
 
 export function TodoItemSmart({ todo, isEditing, onEdit, onCloseEdit }: Props) {
-  // const [isEditing, setEditing] = useState(false);
   const { openModal, closeModal } = useModalStack();
   const dispatch = useAppDispatch();
 
