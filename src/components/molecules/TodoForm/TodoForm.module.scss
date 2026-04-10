@@ -11,7 +11,7 @@
     position: absolute;
     top: 2rem;
     right: 2rem;
-    z-index: 999;
+    z-index: 99;
     opacity: 0.5;
   }
 
@@ -75,7 +75,7 @@
       padding-right: 10rem;
       font-size: 1.8rem;
       font-weight: 700;
-      background-color: #262626;
+      background-color: var(--sidebar-color);
     }
 
     &Description {

@@ -59,12 +59,12 @@
     // font-weight: 600;
     text-transform: uppercase;
     // transform: translateY(0px) scale(0.95);
-    // transition: transform 0.33s ease;
+    transition: color 0.33s ease;
 
     &:hover {
       // transform: translateY(0px) scale(1);
 
-      // color: var(--primary-color);
+      color: var(--primary-color);
       // border-bottom: 1px solid var(--primary-color);
     }
   }
