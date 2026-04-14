@@ -1,4 +1,4 @@
-import { TodoForm } from "@components/molecules/TodoForm/TodoForm";
+import { TodoForm } from "@components/molecules/TodoForm/ui";
 import { createTodo } from "@app/store/todos/todos-slice";
 import { useAppDispatch } from "@app/store/store";
 
@@ -12,11 +12,9 @@ export function CreateTodo({
   const dispatch = useAppDispatch();
 
   const handleCreateTodo = (data: { title: string; description?: string }) => {
-    dispatch(createTodo(data.title, data.description));
+    dispatch(createTodo(data));
     onSubmitSuccess?.();
   };
 
-  return (
-    <TodoForm submitText="Save" onSubmit={handleCreateTodo} onClose={onClose} />
-  );
+  return <TodoForm onSubmit={handleCreateTodo} onClose={onClose} />;
 }

@@ -1,7 +1,10 @@
-import { MAX_TITLE_LENGTH, validateTitle } from "./lib";
-import { useFieldError, useAutoResizeTextarea } from "./hook";
-import { useInput } from "@shared/hooks/useInput/useInput";
 import { useAutoFocus } from "@shared/hooks/useAutoFocus/useAutoFocus";
+import { MAX_TITLE_LENGTH, validateTitle } from "../lib/utils";
+import {
+  useAutoResizeTextarea,
+  useFieldError,
+  useTodoForm,
+} from "../lib/hooks";
 
 import s from "./TodoForm.module.scss";
 
@@ -9,7 +12,6 @@ type TodoFormProps = {
   onClose?: () => void;
   onSubmit: (data: { title: string; description?: string }) => void;
   initialTitle?: string;
-  submitText?: string;
   initialDescription?: string;
 };
 
@@ -18,43 +20,32 @@ export function TodoForm({
   onSubmit,
   initialTitle = "",
   initialDescription = "",
-  submitText = "Save",
 }: TodoFormProps) {
-  const {
-    value: title,
-    onChange: onChangeTitle,
-    onReset: onResetTitle,
-  } = useInput(initialTitle);
-  const {
-    value: description,
-    onChange: onChangeDescription,
-    onReset: onResetDescription,
-  } = useInput(initialDescription);
+  const { title, description } = useTodoForm(initialTitle, initialDescription);
 
-  const {
-    error: titleError,
-    visibleError,
-    hasError,
-  } = useFieldError(title, validateTitle);
+  const titleField = useFieldError(title.value, validateTitle);
 
   const onSubmitHendler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (titleError) return;
+    if (titleField.error) return;
 
-    const trimmedTitle = title.trim();
-    onSubmit({ title: trimmedTitle, description });
-    onResetTitle();
-    onResetDescription();
+    const data = {
+      title: title.value.trim(),
+      description: description.value,
+    };
+
+    onSubmit(data);
+    title.onReset();
+    description.onReset();
   };
 
-  const textareaRef = useAutoResizeTextarea(description);
-
+  const textareaRef = useAutoResizeTextarea(description.value);
   const inputRef = useAutoFocus<HTMLInputElement>();
 
   return (
     <form className={s.editor} onSubmit={onSubmitHendler}>
       <div className={s.editorTitleCounter}>
-        {title.length} / {MAX_TITLE_LENGTH}
+        {title.value.length} / {MAX_TITLE_LENGTH}
       </div>
 
       <div className={s.editorBody}>
@@ -67,14 +58,16 @@ export function TodoForm({
 
         <input
           required
-          aria-invalid={hasError}
-          aria-describedby={hasError ? "todo-title-error" : undefined}
+          aria-invalid={titleField.hasError}
+          aria-describedby={
+            titleField.hasError ? "todo-title-error" : undefined
+          }
           type="text"
           id="todo-title"
           className={`${s.editorField} ${s.editorFieldTitle}`}
           placeholder="Title is required"
-          value={title}
-          onChange={onChangeTitle}
+          value={title.value}
+          onChange={title.onChange}
           ref={inputRef}
         />
 
@@ -89,8 +82,8 @@ export function TodoForm({
           id="todo-description"
           className={`${s.editorField} ${s.editorFieldDescription}`}
           placeholder="Optional description..."
-          value={description}
-          onChange={onChangeDescription}
+          value={description.value}
+          onChange={description.onChange}
           ref={textareaRef}
           rows={1}
         />
@@ -102,13 +95,13 @@ export function TodoForm({
           role="alert"
           className={s.editorTitleError}
           style={{
-            opacity: hasError ? 1 : 0,
-            transform: hasError
+            opacity: titleField.hasError ? 1 : 0,
+            transform: titleField.hasError
               ? "translateX(0) scale(1)"
               : "translateX(-200px) scale(0)",
           }}
         >
-          {visibleError}
+          {titleField.error}
         </p>
 
         <div className={s.editorButtons}>
@@ -123,9 +116,9 @@ export function TodoForm({
           <button
             type="submit"
             className={`${s.editorBtn} ${s.editorBtnSave}`}
-            disabled={hasError || !title.trim()}
+            disabled={titleField.hasError || !title.value.trim()}
           >
-            {submitText}
+            save
           </button>
         </div>
       </div>

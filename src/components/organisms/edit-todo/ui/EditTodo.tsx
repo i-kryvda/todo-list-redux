@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@app/store/store";
 import { updateTodo } from "@app/store/todos/todos-slice";
-import { TodoForm } from "@components/molecules/TodoForm/TodoForm";
+import { TodoForm } from "@components/molecules/TodoForm/ui";
 
 export function EditTodo({
   todo,
@@ -11,14 +11,12 @@ export function EditTodo({
 }) {
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (data: { title: string; description?: string }) => {
-    dispatch(
-      updateTodo({
-        id: todo.id,
-        title: data.title,
-        description: data.description,
-      }),
-    );
+  const handleEditTodo = (data: { title: string; description?: string }) => {
+    const update = {
+      id: todo.id,
+      ...data,
+    };
+    dispatch(updateTodo(update));
     onClose?.();
   };
 
@@ -27,7 +25,7 @@ export function EditTodo({
       initialTitle={todo.title}
       initialDescription={todo.description}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      onSubmit={handleEditTodo}
     />
   );
 }

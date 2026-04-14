@@ -29,12 +29,13 @@ const TodosSlice = createSlice({
           title: title.trim(),
         });
       },
-      prepare(title: string, description?: string) {
+      prepare(data: { title: string; description?: string }) {
         return {
           payload: {
             id: crypto.randomUUID(),
-            title,
-            description,
+            title: data.title,
+            description: data.description,
+
             completed: false,
             pinned: false,
           },
