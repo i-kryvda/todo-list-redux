@@ -1,23 +1,31 @@
 import { useId, useRef, useState } from "react";
-// import { useInput } from "@shared/hooks/useInput";
-import { FiSearch, FiX } from "react-icons/fi";
-import { RiCheckboxLine, RiStarLine } from "react-icons/ri";
-import { RiCheckboxBlankLine } from "react-icons/ri";
-import { useAppDispatch, useAppSelector } from "@app/store/store";
-import { selectSuggestions } from "@app/store/todos/todos-selectors";
-import { setSearchQuery } from "@app/store/todos/todos-slice";
-import { selectSearchQuery } from "@app/store/todos/todos-selectors";
-import { useDebounce } from "@shared/hooks/useDebounce";
-import { useClickOutside } from "../model/hooks/useClickOutside";
-import { useKeyboardNavigation } from "../model/hooks/useKeyboardNavigation";
-import type { TodoType } from "@app/store/todos/todos-types";
-import s from "./search.module.scss";
 
-export function Search() {
+import { FiSearch, FiX } from "react-icons/fi";
+import {
+  RiCheckboxLine,
+  RiStarLine,
+  RiCheckboxBlankLine,
+} from "react-icons/ri";
+
+import { useAppDispatch, useAppSelector } from "@app/store";
+
+import {
+  setSearchQuery,
+  selectSuggestions,
+  selectSearchQuery,
+} from "@app/store/todos";
+import type { TodoType } from "@app/store/todos";
+
+import { useDebounce } from "@shared/hooks/useDebounce";
+
+import { useClickOutside, useKeyboardNavigation } from "../lib";
+
+import s from "./SearchInput.module.scss";
+
+export function SearchInput() {
   const [isOpen, setIsOpen] = useState(false);
   const query = useAppSelector(selectSearchQuery);
   const [inputValue, setInputValue] = useState(query);
-  // const search = useInput("");
   const debouncedQuery = useDebounce(inputValue, 200);
   const dispatch = useAppDispatch();
   const suggestions = useAppSelector(selectSuggestions(debouncedQuery)); //or search.value
@@ -50,7 +58,6 @@ export function Search() {
   };
 
   const handleSelect = (title: string) => {
-    // search.setValue(title);
     setInputValue(title);
     dispatch(setSearchQuery(title));
     closeSuggestions();

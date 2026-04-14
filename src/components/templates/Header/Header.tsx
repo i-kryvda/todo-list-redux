@@ -1,4 +1,4 @@
-import { Search } from "@components/organisms/search/ui/search";
+import { SearchInput } from "@components/organisms/search-todos/ui/SearchInput";
 import style from "./Header.module.scss";
 
 type HeaderProps = {
@@ -10,7 +10,7 @@ export function Header({ onMobileMenuOpen }: HeaderProps) {
     <header className={style.header}>
       <div className="header__container">
         <div className={style.headerBox}>
-          <Search />
+          <SearchInput />
           <div className={style.headerBurger} onClick={onMobileMenuOpen}>
             lll
           </div>

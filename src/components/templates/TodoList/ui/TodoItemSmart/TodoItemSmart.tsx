@@ -1,10 +1,10 @@
-import { useAppDispatch } from "@app/store/store";
-import { deleteTodo } from "@app/store/todos/todos-slice";
-import type { TodoType } from "@app/store/todos/todos-types";
+import { useAppDispatch } from "@app/store";
+import { deleteTodo } from "@app/store/todos";
+import type { TodoType } from "@app/store/todos";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
-import { EditTodo } from "@components/organisms/EditTodo/EditTodo";
-import { TodoItem } from "@components/molecules/TodoItem/TodoItem";
-import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
+import { EditTodo } from "@components/organisms/edit-todo/ui";
+import { TodoItem } from "@components/molecules/TodoItem/ui";
+import { ConfirmDeleteModal } from "@components/organisms/delete-todo/ui";
 
 type Props = {
   todo: TodoType;

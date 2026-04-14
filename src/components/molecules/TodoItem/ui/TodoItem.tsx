@@ -4,7 +4,7 @@ import { pinTodo, toggleTodo } from "@app/store/todos/todos-slice";
 import { selectTodoLimitExceeded } from "@app/store/todos/todos-selectors";
 import { MdOutlineEdit } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { truncate } from "./lib/truncate";
+import { truncate } from "../lib/truncate";
 import type { TodoType } from "@app/store/todos/todos-types";
 import s from "./TodoItem.module.scss";
 import { useState } from "react";

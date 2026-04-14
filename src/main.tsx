@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "@app/context/ThemeProvider/ThemeProvider.tsx";
 import { ModalProvider } from "@app/context/ModalProvider/ModalProvider.tsx";
-import { persistor, store } from "@app/store/store.tsx";
+import { persistor, store } from "@app/store";
 import { App } from "./app/App.tsx";
 
 createRoot(document.getElementById("root")!).render(

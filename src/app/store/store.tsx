@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch, useSelector, useStore } from "react-redux";
+// import { useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { rootReducer } from "./rootReducer";
 import { persistStore } from "redux-persist";
 import {
@@ -28,4 +29,4 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppSelector = useSelector.withTypes<AppState>();
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppStore = useStore.withTypes<typeof store>();
+// export const useAppStore = useStore.withTypes<typeof store>();

@@ -1,0 +1,37 @@
+.editor {
+  padding-top: 5rem;
+
+  &Toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    transition:
+      border-color 0.12s ease,
+      color 0.2s ease;
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  &ToggleIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: 18px;
+    border-radius: 50%;
+
+    transition: all 0.15s ease;
+  }
+}

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@app/store/store";
 import { setFilter } from "@app/store/todos/todos-slice";
 import { selectFilter } from "@app/store/todos/todos-selectors";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
-import { CreateTodo } from "@components/organisms/CreateTodo/CreateTodo";
+import { CreateTodo } from "@components/organisms/add-todo/ui/CreateTodo";
 import { Tooltip } from "@components/atoms/Tooltip/Tooltip";
 import {
   BsLayoutSidebar,

@@ -3,16 +3,16 @@ import {
   selectHasCompleted,
   selectFilter,
   selectSearchTodos,
-} from "@app/store/todos/todos-selectors";
-import { clearCompleted } from "@app/store/todos/todos-slice";
-import { useAppDispatch, useAppSelector } from "@app/store/store";
+} from "@app/store/todos";
+import { clearCompleted } from "@app/store/todos";
+import { useAppDispatch, useAppSelector } from "@app/store";
 import { EmptyState } from "@components/atoms/EmptyState/EmptyState";
 import { HiOutlineViewGrid, HiOutlineViewList } from "react-icons/hi";
 import { AiOutlineClear } from "react-icons/ai";
-import s from "./TodoList.module.scss";
-import { ConfirmDeleteModal } from "@components/organisms/ConfirmDeleteModal/ConfirmDeleteModal";
+import { ConfirmDeleteModal } from "@components/organisms/delete-todo/ui";
 import { useModalStack } from "@app/context/ModalProvider/ModalProvider";
 import { TodoItemSmart } from "./ui/TodoItemSmart";
+import s from "./TodoList.module.scss";
 
 type View = "list" | "card";
 const LOAD_MORE = 10;
